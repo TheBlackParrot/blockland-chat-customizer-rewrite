@@ -1,0 +1,309 @@
+if(!$CustomChat::InitGUI) {
+	exec("./gui/CustomChatSettings.gui");
+	exec("./gui/CustomChatColorGui.gui");
+	$CustomChat::InitGUI = 1;
+}
+
+function revertCustomChatSettings() {
+	for(%i=0;%i<10;%i++) {
+		%obj = "CC_EscapeColorBox" @ %i;
+		%obj.mColor = $Pref::Client::CustomChat::Color[%i];
+	}
+
+	// i'll figure out some way to make this more dynamic at a later time
+	for(%i=0;%i<10;%i++) {
+		%obj = "CC_RandomNameColorBox" @ %i;
+		%obj.mColor = HexToRGB($Pref::Client::CustomChat::RandomNameColor[%i]) SPC "255";
+	}
+
+	%window = CustomChatWindow;
+
+	CC_FontFamilyInput.setValue($Pref::Client::CustomChat::FontFamily);
+	CC_FontSizeInput.setValue(mClamp($Pref::Client::CustomChat::FontSize, 4, 64));
+
+	CC_LinkColorBox.mColor = $Pref::Client::CustomChat::LinkColor;
+	CC_LinkVisitedColorBox.mColor = $Pref::Client::CustomChat::LinkVisitedColor;
+
+	CC_TextOutlinesCheck.setValue(mClamp($Pref::Client::CustomChat::EnableOutline, 0, 1));
+	CC_OutlineColorBox.mColor = $Pref::Client::CustomChat::OutlineColor;
+
+	CC_TextShadowsCheck.setValue(mClamp($Pref::Client::CustomChat::EnableShadow, 0, 1));
+	CC_ShadowColorBox.mColor = HexToRGB($Pref::Client::CustomChat::ShadowColor) SPC "255";
+	CC_ShadowXInput.setValue(mFloor($Pref::Client::CustomChat::ShadowX));
+	CC_ShadowYInput.setValue(mFloor($Pref::Client::CustomChat::ShadowY));
+
+	CC_StripFontTagCheck.setValue(mClamp($Pref::Client::CustomChat::RemoveFontTags, 0, 1));
+	CC_StripColorTagCheck.setValue(mClamp($Pref::Client::CustomChat::RemoveColorTags, 0, 1));
+
+	CC_NameColorBox.mColor = HexToRGB($Pref::Client::CustomChat::NameColor) SPC "255";
+	CC_SelfNameColorBox.mColor = HexToRGB($Pref::Client::CustomChat::SelfNameColor) SPC "255";
+	CC_RandomizeNameColorsCheck.setValue(mClamp($Pref::Client::CustomChat::EnableRandomNameColors, 0, 1));
+
+	CC_ClanTagsCheck.setValue(mClamp($Pref::Client::CustomChat::EnableClanTags, 0, 1));
+	CC_ClanTagColorBox.mColor = HexToRGB($Pref::Client::CustomChat::ClanTagsColor) SPC "255";
+
+	CC_MessageColorBox.mColor = HexToRGB($Pref::Client::CustomChat::MessageColor) SPC "255";
+	CC_SelfMessageColorBox.mColor = HexToRGB($Pref::Client::CustomChat::SelfMsgColor) SPC "255";
+
+	for(%i=0;%i<3;%i++) {
+		%obj = "CC_LoggingMode" @ %i;
+		%obj.setValue($Pref::Client::CustomChat::LogMode == %i ? 1 : 0);
+	}
+	%window.loggingMode = $Pref::Client::CustomChat::LogMode;
+	CC_LogDirInput.setValue($Pref::Client::CustomChat::LogDir);
+	CC_StripMLCheck.setValue(mClamp($Pref::Client::CustomChat::StripMLControlChars, 0, 1));
+	CC_EchoChatCheck.setValue(mClamp($Pref::Client::CustomChat::EchoChatToConsole, 0, 1));
+
+	for(%i=0;%i<3;%i++) {
+		%obj = "CC_MsgSoundSetting" @ %i;
+		%obj.setValue($Pref::Client::CustomChat::SoundNotificationMode == %i ? 1 : 0);
+	}
+	%window.msgSoundSetting = $Pref::Client::CustomChat::SoundNotificationMode;
+	CC_NewMsgSoundInput.setValue($Pref::Client::CustomChat::MessageSoundFilename);
+	CC_SentMsgSoundInput.setValue($Pref::Client::CustomChat::SelfMessageSoundFilename);
+	CC_EnableBuzzwordsCheck.setValue(mClamp($Pref::Client::CustomChat::EnableBuzzwords, 0, 1));
+	CC_BuzzwordsListInput.setValue($Pref::Client::CustomChat::NotifyWhenSaid);
+	CC_BuzzwordNotificationSoundInput.setValue($Pref::Client::CustomChat::NotifySoundFilename);
+
+	CC_EnableAdminRanksCheck.setValue(mClamp($Pref::Client::CustomChat::EnableRanks, 0, 1));
+	CC_AdminRankStringInput.setValue(escapeColorChars($Pref::Client::CustomChat::AdminRankString));
+	CC_SuperAdminRankStringInput.setValue(escapeColorChars($Pref::Client::CustomChat::SuperAdminRankString));
+
+	for(%i=0;%i<3;%i++) {
+		%obj = "CC_TimestampModeSetting" @ %i;
+		%obj.setValue($Pref::Client::CustomChat::TimestampMode == %i ? 1 : 0);
+	}
+	%window.tsModeSetting = $Pref::Client::CustomChat::TimestampMode;
+	for(%i=0;%i<3;%i++) {
+		%obj = "CC_TimestampFormatSetting" @ %i;
+		%obj.setValue($Pref::Client::CustomChat::HourMode == %i ? 1 : 0);
+	}
+	%window.tsFormatSetting = $Pref::Client::CustomChat::HourMode;
+	CC_TimestampSecondsCheck.setValue(mClamp($Pref::Client::CustomChat::ShowSecondsInTimestamp, 0, 1));
+	CC_TimestampColorBox.mColor = HexToRGB($Pref::Client::CustomChat::TimestampColor) SPC "255";
+}
+
+function openCustomChatSettings() {
+	canvas.pushDialog("CustomChatSettingsGui");
+	revertCustomChatSettings();
+	switchCCTab("Appearance");
+}
+
+function saveCustomChatSettings() {
+	for(%i=0;%i<10;%i++) {
+		%obj = "CC_EscapeColorBox" @ %i;
+		$Pref::Client::CustomChat::Color[%i] = %obj.mColor;
+	}
+
+	// i'll figure out some way to make this more dynamic at a later time
+	for(%i=0;%i<10;%i++) {
+		%obj = "CC_RandomNameColorBox" @ %i;
+		$Pref::Client::CustomChat::RandomNameColor[%i] = CC_RGBToHex(%obj.mColor);
+	}
+
+	%window = CustomChatWindow;
+
+	$Pref::Client::CustomChat::FontFamily = CC_FontFamilyInput.getValue();
+	$Pref::Client::CustomChat::FontSize = mClamp(CC_FontSizeInput.getValue(), 4, 64);
+	CC_FontSizeInput.setValue($Pref::Client::CustomChat::FontSize);
+
+	$Pref::Client::CustomChat::LinkColor = CC_LinkColorBox.mColor;
+	$Pref::Client::CustomChat::LinkVisitedColor = CC_LinkVisitedColorBox.mColor;
+
+	$Pref::Client::CustomChat::EnableOutline = CC_TextOutlinesCheck.getValue();
+	$Pref::Client::CustomChat::OutlineColor = CC_OutlineColorBox.mColor;
+
+	$Pref::Client::CustomChat::EnableShadow = CC_TextShadowsCheck.getValue();
+	$Pref::Client::CustomChat::ShadowColor = CC_RGBToHex(CC_ShadowColorBox.mColor);
+	$Pref::Client::CustomChat::ShadowX = CC_ShadowXInput.getValue();
+	$Pref::Client::CustomChat::ShadowY = CC_ShadowYInput.getValue();
+
+	$Pref::Client::CustomChat::RemoveFontTags = CC_StripFontTagCheck.getValue();
+	$Pref::Client::CustomChat::RemoveColorTags = CC_StripColorTagCheck.getValue();
+
+	$Pref::Client::CustomChat::NameColor = CC_RGBToHex(CC_NameColorBox.mColor);
+	$Pref::Client::CustomChat::SelfNameColor = CC_RGBToHex(CC_SelfNameColorBox.mColor);
+	$Pref::Client::CustomChat::EnableRandomNameColors = CC_RandomizeNameColorsCheck.getValue();
+
+	$Pref::Client::CustomChat::EnableClanTags = CC_ClanTagsCheck.getValue();
+	$Pref::Client::CustomChat::ClanTagsColor = CC_RGBToHex(CC_ClanTagColorBox.mColor);
+
+	$Pref::Client::CustomChat::MessageColor = CC_RGBToHex(CC_MessageColorBox.mColor);
+	$Pref::Client::CustomChat::SelfMsgColor = CC_RGBToHex(CC_SelfMessageColorBox.mColor);
+
+	$Pref::Client::CustomChat::LogMode = %window.loggingMode;
+	$Pref::Client::CustomChat::LogDir = CC_LogDirInput.getValue();
+	$Pref::Client::CustomChat::StripMLControlChars = CC_StripMLCheck.getValue();
+	$Pref::Client::CustomChat::EchoChatToConsole = CC_EchoChatCheck.getValue();
+
+	$Pref::Client::CustomChat::SoundNotificationMode = %window.msgSoundSetting;
+	$Pref::Client::CustomChat::EnableBuzzwords = CC_EnableBuzzwordsCheck.getValue();
+	$Pref::Client::CustomChat::NotifyWhenSaid = CC_BuzzwordsListInput.getValue();
+	$Pref::Client::CustomChat::NotifySoundFilename = CC_BuzzwordNotificationSoundInput.getValue();
+
+	$Pref::Client::CustomChat::EnableRanks = CC_EnableAdminRanksCheck.getValue();
+	$Pref::Client::CustomChat::AdminRankString = collapseEscape(CC_AdminRankStringInput.getValue());
+	$Pref::Client::CustomChat::SuperAdminRankString = collapseEscape(CC_SuperAdminRankStringInput.getValue());
+
+	$Pref::Client::CustomChat::TimestampMode = %window.tsModeSetting;
+	$Pref::Client::CustomChat::HourMode = %window.tsFormatSetting;
+	$Pref::Client::CustomChat::ShowSecondsInTimestamp = CC_TimestampSecondsCheck.getValue();
+	$Pref::Client::CustomChat::TimestampColor = CC_RGBToHex(CC_TimestampColorBox.mColor);
+
+	%msgSoundFilename = CC_NewMsgSoundInput.getValue();
+	if(%msgSoundFilename !$= $Pref::Client::CustomChat::MessageSoundFilename) {
+		if(isObject(CustomChatMsgNotify)) {
+			CustomChatMsgNotify.delete();
+			
+			new AudioProfile(CustomChatMsgNotify) {
+				fileName = %msgSoundFilename;
+				description = AudioGui;
+				preload = true;
+			};
+		}
+	}
+	$Pref::Client::CustomChat::MessageSoundFilename = %msgSoundFilename;
+
+	%sentMsgSoundFilename = CC_SentMsgSoundInput.getValue();
+	if(%sentMsgSoundFilename !$= $Pref::Client::CustomChat::SelfMessageSoundFilename) {
+		if(isObject(CustomChatSelfMsgNotify)) {
+			CustomChatSelfMsgNotify.delete();
+			
+			new AudioProfile(CustomChatSelfMsgNotify) {
+				fileName = %sentMsgSoundFilename;
+				description = AudioGui;
+				preload = true;
+			};
+		}
+	}
+	$Pref::Client::CustomChat::SelfMessageSoundFilename = CC_SentMsgSoundInput.getValue();
+
+	messageBoxOK("", "Chat settings were saved.");
+
+	updateFontFamily($Pref::Client::CustomChat::FontFamily);
+	updateFontSize($Pref::Client::CustomChat::FontSize);
+	updateLinkColor($Pref::Client::CustomChat::LinkColor);
+	updateVisitedLinkColor($Pref::Client::CustomChat::LinkVisitedColor);
+	setChatTextOutline($Pref::Client::CustomChat::EnableOutline);
+	setChatTextOutlineColor($Pref::Client::CustomChat::OutlineColor);
+
+	NewChatText.setProfile(BlockChatTextSize1Profile);
+	setChatColors();
+}
+
+function switchCCTab(%tab) {
+	%obj = "ChatSettings" @ %tab @ "Pane";
+	if(!isObject(%obj)) {
+		return;
+	}
+
+	ChatSettingsAppearancePane.setVisible(%tab $= "Appearance" ? 1 : 0);
+	ChatSettingsSoundPane.setVisible(%tab $= "Sound" ? 1 : 0);
+	ChatSettingsLoggingPane.setVisible(%tab $= "Logging" ? 1 : 0);
+	ChatSettingsExtraPane.setVisible(%tab $= "Extra" ? 1 : 0);
+
+	CustomChatWindow.bringToFront(%obj);
+
+	CustomChatWindow.setText("Chat Settings -" SPC %tab);
+}
+
+
+function setCCLoggingSetting(%value) {
+	%window = CustomChatWindow;
+	%window.loggingMode = mClamp(%value, 0, 2);
+}
+
+
+function setCCMessageSoundSetting(%value) {
+	%window = CustomChatWindow;
+	%window.msgSoundSetting = mClamp(%value, 0, 2);
+}
+
+
+function setCCTimestampModeSetting(%value) {
+	%window = CustomChatWindow;
+	%window.tsModeSetting = mClamp(%value, 0, 2);
+}
+function setCCTimestampFormatSetting(%value) {
+	%window = CustomChatWindow;
+	%window.tsFormatSetting = mClamp(%value, 0, 2);
+}
+
+
+function openCustomChatColorChooser(%name, %box, %hex) {
+	%value = %box.mColor;
+
+	canvas.pushDialog("CustomChatColorGui");
+	%window = CustomChatColorChooserWindow;
+
+	%window.setText("Setting color for" SPC %name);
+	%window.activeBox = %box;
+
+	if(%hex) {
+		CustomChatColorChooserHexArea.setVisible(1);
+		CustomChatColorChooserHex.setText("<font:Arial Bold:14><color:ffffff><just:center>#" @ strUpr(CC_RGBToHex(%value)));
+		%window.isHex = 1;
+	} else {
+		CustomChatColorChooserHexArea.setVisible(0);
+		%window.isHex = 0;
+	}
+
+	CustomChatColorChooserRedSlider.setValue(getWord(%value, 0));
+	CustomChatColorChooserGreenSlider.setValue(getWord(%value, 1));
+	CustomChatColorChooserBlueSlider.setValue(getWord(%value, 2));
+
+	updateCCColor();
+}
+
+function CCC_sliderUpdate(%slider) {
+	%slider.setValue(mFloor(%slider.getValue()));
+	updateCCColor();
+}
+
+function updateCCColor(%red, %green, %blue) {
+	%window = CustomChatColorChooserWindow;
+
+	if(%red $= "") {
+		%red = CustomChatColorChooserRedSlider.getValue();
+		%green = CustomChatColorChooserGreenSlider.getValue();
+		%blue = CustomChatColorChooserBlueSlider.getValue();
+	}
+
+	%value = %red SPC %green SPC %blue;
+	CustomChatColorChooserBox.color = %value;
+
+	if(%window.isHex) {
+		%value = CC_RGBToHex(%red SPC %green SPC %blue);
+		CustomChatColorChooserBox.color = %red SPC %green SPC %blue SPC "255";
+
+		CustomChatColorChooserHex.setText("<font:Arial Bold:14><color:ffffff><just:center>#" @ strUpr(%value));
+	} else {
+		%value = %value SPC "255";
+		CustomChatColorChooserBox.color = %value;
+	}
+}
+
+function selectCCColor() {
+	%window = CustomChatColorChooserWindow;
+
+	%red = CustomChatColorChooserRedSlider.getValue();
+	%green = CustomChatColorChooserGreenSlider.getValue();
+	%blue = CustomChatColorChooserBlueSlider.getValue();
+
+	%value = %red SPC %green SPC %blue;
+	%window.activeBox.mColor = %value SPC "255";
+
+	canvas.popDialog(CustomChatColorGui);
+}
+
+function randomizeCCColor() {
+	%red = getRandom(0, 255);
+	%green = getRandom(0, 255);
+	%blue = getRandom(0, 255);
+
+	updateCCColor(%red, %green, %blue);
+
+	CustomChatColorChooserRedSlider.setValue(%red);
+	CustomChatColorChooserGreenSlider.setValue(%green);
+	CustomChatColorChooserBlueSlider.setValue(%blue);
+}

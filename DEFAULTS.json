@@ -1,0 +1,79 @@
+{
+	"BlockChatTextSize1Profile": {
+		"doFontOutline": 1,
+		"fontColor": "255 0 64 255",
+		"fontColorLink": "0 255 255 255",
+		"fontColorLinkHL": "255 0 255 255",
+		"fontColors": {
+			"0": "255 0 64 255",
+			"1": "64 64 255 255",
+			"2": "0 255 0 255",
+			"3": "255 255 0 255",
+			"4": "0 255 255 255",
+			"5": "255 0 255 255",
+			"6": "255 255 255 255",
+			"7": "96 96 96 255",
+			"8": "0 0 0 0",
+			"9": "0 0 0 0"
+		},
+		"fontOutlineColor": "0 0 0 255",
+		"fontType": "Palatino Linotype",
+		"fontSize": 24
+	},
+	"Sanitizing": {
+		"$Pref::Client::CustomChat::RemoveFontTags": 0,
+		"$Pref::Client::CustomChat::RemoveColorTags": 0
+	},
+	"Sounds": {
+		"$Pref::Client::CustomChat::SoundNotificationMode": 0,
+		"$Pref::Client::CustomChat::MessageSoundFilename": "./sounds/msg.wav",
+		"$Pref::Client::CustomChat::SelfMessageSoundFilename": "./sounds/selfmsg.wav",
+		"$Pref::Client::CustomChat::NotifySoundFilename": "./sounds/notify.wav",
+		"$Pref::Client::CustomChat::EnableBuzzwords": 0,
+		"$Pref::Client::CustomChat::NotifyWhenSaid": ""
+	},
+	"Shadows": {
+		"$Pref::Client::CustomChat::EnableShadow": 0,
+		"$Pref::Client::CustomChat::ShadowX": 2,
+		"$Pref::Client::CustomChat::ShadowY": 2,
+		"$Pref::Client::CustomChat::ShadowColor": "00000099"
+	},
+	"Logging": {
+		"$Pref::Client::CustomChat::LogMode": 0,
+		"$Pref::Client::CustomChat::LogDir": "config/client/chat/logs/",
+		"$Pref::Client::CustomChat::StripMLControlChars": 1,
+		"$Pref::Client::CustomChat::EchoChatToConsole": 0
+	},
+	"Colors": {
+		"$Pref::Client::CustomChat::NameColor": "FFFF00",
+		"$Pref::Client::CustomChat::SelfNameColor": "FFFF00",
+		"$Pref::Client::CustomChat::EnableRandomNameColors": 0,
+		"$Pref::Client::CustomChat::RandomNameColor": {
+			"0": "FFAAAA",
+			"1": "FFCCAA",
+			"2": "FFFFAA",
+			"3": "CCFFAA",
+			"4": "AAFFAA",
+			"5": "AAFFFF",
+			"6": "AACCFF",
+			"7": "AAAAFF",
+			"8": "CCAAFF",
+			"9": "FFAAFF",
+			"Count": 10
+		},
+		"$Pref::Client::CustomChat::ClanTagsColor": "606060",
+		"$Pref::Client::CustomChat::MessageColor": "FFFFFF",
+		"$Pref::Client::CustomChat::SelfMsgColor": "FFFFFF"
+	},
+	"Timestamps": {
+		"$Pref::Client::CustomChat::TimestampMode": 0,
+		"$Pref::Client::CustomChat::HourMode": 1,
+		"$Pref::Client::CustomChat::ShowSecondsInTimestamp": 0,
+		"$Pref::Client::CustomChat::TimestampColor": "99FF00"
+	},
+	"Ranks": {
+		"$Pref::Client::CustomChat::EnableRanks": 0,
+		"$Pref::Client::CustomChat::AdminRankString": "\c7[\c2A\c7]",
+		"$Pref::Client::CustomChat::SuperAdminRankString": "\c7[\c0S\c7]"
+	}
+}
