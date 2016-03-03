@@ -1,0 +1,11 @@
+{
+	"version": "0.0.1-7",
+	"channel": "default",
+	"repositories":
+	[
+		{
+			"url": "http://theblackparrot.github.io/blockland-chat-customizer-rewrite/repository.json",
+			"format": "JSON"
+		}
+	]
+}
