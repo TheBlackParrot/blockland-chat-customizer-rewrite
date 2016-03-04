@@ -110,6 +110,11 @@ if($Pref::Client::CustomChat::SoundNotificationMode $= "") {
 
 	$Pref::Client::CustomChat::EnableBuzzwords = 0;
 	$Pref::Client::CustomChat::NotifyWhenSaid = $pref::Player::NetName SPC $pref::Player::LANName;
+
+	$Pref::Client::CustomChat::EnableSwearFiltering = 0;
+	$Pref::Client::CustomChat::SwearList = "";
+
+	$Pref::Client::CustomChat::EnableAutoPunctuation = 0;
 }
 
 updateFontFamily($Pref::Client::CustomChat::FontFamily);
@@ -243,17 +248,23 @@ function sanitizeColorTags(%string) {
 }
 
 package CustomChatPackage {
-	function clientCmdChatMessage(%a, %b, %c, %fmsg, %clanPrefix, %name, %clanSuffix, %msg) {
+	function clientCmdChatMessage(%a, %b, %c, %fmsg, %clanPrefix, %name, %clanSuffix, %msg, %color) {
+		// %color is for slayer
 		%soundMode = $Pref::Client::CustomChat::SoundNotificationMode;
 
 		%taggedString = stripMLControlChars(getTaggedString(getWord(%fmsg, 0)));
 		switch$(%taggedString) {
-			case "%1%2%3: %4" or "%1%2%3%7: %4":
+			case "%1%2%3: %4" or "%1%2%3%7: %4" or "%1%5%2%3%7: %4" or "%5%1%2%5%3%7: %4" or "[%5%6] %1%2%3%7: %4":
 				%isChatMsg = 1;
 		}
 		if(!%isChatMsg) {
 			// isn't a chat message
 			return parent::clientCmdChatMessage(%a, %b, %c, %fmsg, %clanPrefix, %name, %clanSuffix, %msg);
+		}
+
+		if(%taggedString $= "%1%5%2%3%7: %4") {
+			%forcedColor = %color;
+			%forceAllowColor = 1;
 		}
 
 		// might as well do this before everything
@@ -276,14 +287,16 @@ package CustomChatPackage {
 				}
 			}
 
-			if($Pref::Client::CustomChat::RemoveColorTags) {
-				%fmsg = sanitizeColorTags(%fmsg);
-				%name = sanitizeColorTags(%name);
-				%msg = sanitizeColorTags(%msg);
+			if(!%forceAllowColor) {
+				if($Pref::Client::CustomChat::RemoveColorTags) {
+					%fmsg = sanitizeColorTags(%fmsg);
+					%name = sanitizeColorTags(%name);
+					%msg = sanitizeColorTags(%msg);
 
-				if($Pref::Client::CustomChat::EnableClanTags) {
-					%clanPrefix = sanitizeColorTags(%clanPrefix);
-					%clanSuffix = sanitizeColorTags(%clanSuffix);
+					if($Pref::Client::CustomChat::EnableClanTags) {
+						%clanPrefix = sanitizeColorTags(%clanPrefix);
+						%clanSuffix = sanitizeColorTags(%clanSuffix);
+					}
 				}
 			}
 		}
@@ -312,18 +325,22 @@ package CustomChatPackage {
 				alxPlay(CustomChatSelfMsgNotify);
 			}
 
-			%name = "<color:" @ $Pref::Client::CustomChat::SelfNameColor @ ">" @ %name;
+			if(!%forceAllowColor) {
+				%name = "<color:" @ $Pref::Client::CustomChat::SelfNameColor @ ">" @ %name;
+			}
 			%preMsg = "<color:" @ $Pref::Client::CustomChat::SelfMsgColor @ ">";
 		} else {
 			if(%soundMode >= 1) {
 				alxPlay(CustomChatMsgNotify);
 			}
 
-			if(!$Pref::Client::CustomChat::EnableRandomNameColors) {
-				%name = "<color:" @ $Pref::Client::CustomChat::NameColor @ ">" @ %name;
-			} else {
-				// random name colors are actually psuedo-random (shhhh)
-				%name = "<color:" @ getRandomNameColor(%name) @ ">" @ %name;
+			if(!%forceAllowColor) {
+				if(!$Pref::Client::CustomChat::EnableRandomNameColors) {
+					%name = "<color:" @ $Pref::Client::CustomChat::NameColor @ ">" @ %name;
+				} else {
+					// random name colors are actually psuedo-random (shhhh)
+					%name = "<color:" @ getRandomNameColor(%name) @ ">" @ %name;
+				}
 			}
 
 			%preMsg = "<color:" @ $Pref::Client::CustomChat::MessageColor @ ">";
@@ -352,9 +369,13 @@ package CustomChatPackage {
 			%time = "<color:" @ $Pref::Client::CustomChat::TimestampColor @ ">" @ getChatTimestamp() @ " ";
 		}
 
-		%fmsg = %time @ %rank @ %clanPrefix @ %name @ %clanSuffix @ %preMsg @ ":" SPC %msg;
+		if($Pref::Client::CustomChat::EnableAutoPunctuation) {
+			%msg = CC_autoPunctuateString(%msg);
+		}
 
-		return parent::clientCmdChatMessage(%a, %b, %c, %fmsg,%clanPrefix, %name, %clanSuffix, %msg);
+		%fmsg = getWord(%fmsg, 0) SPC %time @ %rank @ %clanPrefix @ %forcedColor @ %name @ %clanSuffix @ %preMsg @ ":" SPC %msg;
+
+		return parent::clientCmdChatMessage(%a, %b, %c, %fmsg, %clanPrefix, %name, %clanSuffix, %msg);
 	}
 
 	function NewChatSO::addLine(%this, %msg, %a, %b, %c) {
@@ -380,11 +401,15 @@ package CustomChatPackage {
 			%time = "<color:" @ $Pref::Client::CustomChat::TimestampColor @ ">" @ getChatTimestamp() @ " ";
 		}
 
+		if($Pref::Client::CustomChat::EnableSwearFiltering) {
+			%msg = CC_stripBadWords(%msg);
+		}
+
 		// \cr wouldn't work. :(
 		return parent::addLine(%this, %pre @ %time @ "<color:" @ CC_RGBToHex($Pref::Client::CustomChat::Color0) @ ">" @ %msg, %a, %b, %c);
 	}
 };
 activatePackage(CustomChatPackage);
 
-$CustomChat::Version = "0.0.1-7";
+$CustomChat::Version = "0.1.0-1";
 echo("Executed Client_CustomChat v" @ $CustomChat::Version);

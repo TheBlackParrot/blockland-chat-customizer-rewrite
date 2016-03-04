@@ -20,7 +20,6 @@ new GuiControl(CustomChatColorGui) {
       enabled = "1";
       visible = "1";
       clipToParent = "1";
-      closeCommand = "canvas.popDialog(CustomChatColorGui);";
       accelerator = "escape";
       maxLength = "255";
       resizeWidth = "1";
@@ -30,6 +29,7 @@ new GuiControl(CustomChatColorGui) {
       canMinimize = "0";
       canMaximize = "0";
       minSize = "50 50";
+      closeCommand = "canvas.popDialog(CustomChatColorGui);";
 
       new GuiSwatchCtrl() {
          profile = "GuiDefaultProfile";
@@ -43,6 +43,26 @@ new GuiControl(CustomChatColorGui) {
          clipToParent = "1";
          color = "0 0 0 255";
 
+         new GuiBitmapCtrl() {
+            profile = "GuiDefaultProfile";
+            horizSizing = "right";
+            vertSizing = "bottom";
+            position = "1 1";
+            extent = "118 118";
+            minExtent = "8 2";
+            enabled = "1";
+            visible = "1";
+            clipToParent = "1";
+            bitmap = "./images/trans.png";
+            wrap = "0";
+            lockAspectRatio = "0";
+            alignLeft = "0";
+            alignTop = "0";
+            overflowImage = "0";
+            keepCached = "0";
+            mColor = "255 255 255 255";
+            mMultiply = "0";
+         };
          new GuiSwatchCtrl(CustomChatColorChooserBox) {
             profile = "GuiDefaultProfile";
             horizSizing = "right";
@@ -53,7 +73,7 @@ new GuiControl(CustomChatColorGui) {
             enabled = "1";
             visible = "1";
             clipToParent = "1";
-            color = "3 134 71 255";
+            color = "3 137 93 255";
 
             new GuiSwatchCtrl(CustomChatColorChooserHexArea) {
                profile = "GuiDefaultProfile";
@@ -93,7 +113,7 @@ new GuiControl(CustomChatColorGui) {
          horizSizing = "right";
          vertSizing = "bottom";
          position = "170 40";
-         extent = "255 38";
+         extent = "255 20";
          minExtent = "8 2";
          enabled = "1";
          visible = "1";
@@ -104,41 +124,41 @@ new GuiControl(CustomChatColorGui) {
          value = "3";
          snap = "0";
       };
-      new GuiSliderCtrl(CustomChatColorChooserBlueSlider) {
+      new GuiSliderCtrl(CustomChatColorChooserAlphaSlider) {
          profile = "GuiSliderProfile";
          horizSizing = "right";
          vertSizing = "bottom";
-         position = "170 104";
-         extent = "255 38";
+         position = "170 112";
+         extent = "255 20";
          minExtent = "8 2";
          enabled = "1";
-         visible = "1";
+         visible = "0";
          clipToParent = "1";
          altCommand = "CCC_sliderUpdate(CustomChatColorChooserBlueSlider);";
          range = "0.000000 255.000000";
          ticks = "3";
-         value = "71";
+         value = "93";
          snap = "0";
       };
       new GuiTextCtrl() {
          profile = "GuiTextProfile";
          horizSizing = "right";
          vertSizing = "bottom";
-         position = "150 104";
+         position = "150 112";
          extent = "8 18";
          minExtent = "8 2";
          enabled = "1";
          visible = "1";
          clipToParent = "1";
-         text = "B";
+         text = "A";
          maxLength = "255";
       };
       new GuiSliderCtrl(CustomChatColorChooserGreenSlider) {
          profile = "GuiSliderProfile";
          horizSizing = "right";
          vertSizing = "bottom";
-         position = "170 72";
-         extent = "255 38";
+         position = "170 64";
+         extent = "255 20";
          minExtent = "8 2";
          enabled = "1";
          visible = "1";
@@ -146,7 +166,7 @@ new GuiControl(CustomChatColorGui) {
          altCommand = "CCC_sliderUpdate(CustomChatColorChooserGreenSlider);";
          range = "0.000000 255.000000";
          ticks = "3";
-         value = "134";
+         value = "137";
          snap = "0";
       };
       new GuiTextCtrl() {
@@ -166,7 +186,7 @@ new GuiControl(CustomChatColorGui) {
          profile = "GuiTextProfile";
          horizSizing = "right";
          vertSizing = "bottom";
-         position = "150 72";
+         position = "150 64";
          extent = "8 18";
          minExtent = "8 2";
          enabled = "1";
@@ -219,6 +239,35 @@ new GuiControl(CustomChatColorGui) {
          text = "Randomize";
          groupNum = "-1";
          buttonType = "PushButton";
+      };
+      new GuiTextCtrl() {
+         profile = "GuiTextProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "150 88";
+         extent = "8 18";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         text = "B";
+         maxLength = "255";
+      };
+      new GuiSliderCtrl(CustomChatColorChooserBlueSlider) {
+         profile = "GuiSliderProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "170 88";
+         extent = "255 20";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         altCommand = "CCC_sliderUpdate(CustomChatColorChooserBlueSlider);";
+         range = "0.000000 255.000000";
+         ticks = "3";
+         value = "93";
+         snap = "0";
       };
    };
 };

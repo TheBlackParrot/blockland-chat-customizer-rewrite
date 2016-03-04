@@ -81,6 +81,10 @@ function revertCustomChatSettings() {
 	%window.tsFormatSetting = $Pref::Client::CustomChat::HourMode;
 	CC_TimestampSecondsCheck.setValue(mClamp($Pref::Client::CustomChat::ShowSecondsInTimestamp, 0, 1));
 	CC_TimestampColorBox.mColor = HexToRGB($Pref::Client::CustomChat::TimestampColor) SPC "255";
+
+	CC_EnableSwearFilteringCheck.setValue(mClamp($Pref::Client::CustomChat::EnableSwearFiltering, 0, 1));
+	CC_SwearFilterInput.setValue(escapeColorChars($Pref::Client::CustomChat::SwearList));
+	CC_EnableAutoPunctuationCheck.setValue(mClamp($Pref::Client::CustomChat::EnableAutoPunctuation, 0, 1));
 }
 
 function openCustomChatSettings() {
@@ -98,7 +102,7 @@ function saveCustomChatSettings() {
 	// i'll figure out some way to make this more dynamic at a later time
 	for(%i=0;%i<10;%i++) {
 		%obj = "CC_RandomNameColorBox" @ %i;
-		$Pref::Client::CustomChat::RandomNameColor[%i] = CC_RGBToHex(%obj.mColor);
+		$Pref::Client::CustomChat::RandomNameColor[%i] = CC_RGBToHex(getWords(%obj.mColor, 0, 2));
 	}
 
 	%window = CustomChatWindow;
@@ -121,15 +125,15 @@ function saveCustomChatSettings() {
 	$Pref::Client::CustomChat::RemoveFontTags = CC_StripFontTagCheck.getValue();
 	$Pref::Client::CustomChat::RemoveColorTags = CC_StripColorTagCheck.getValue();
 
-	$Pref::Client::CustomChat::NameColor = CC_RGBToHex(CC_NameColorBox.mColor);
-	$Pref::Client::CustomChat::SelfNameColor = CC_RGBToHex(CC_SelfNameColorBox.mColor);
+	$Pref::Client::CustomChat::NameColor = CC_RGBToHex(getWords(CC_NameColorBox.mColor, 0, 2));
+	$Pref::Client::CustomChat::SelfNameColor = CC_RGBToHex(getWords(CC_SelfNameColorBox.mColor, 0, 2));
 	$Pref::Client::CustomChat::EnableRandomNameColors = CC_RandomizeNameColorsCheck.getValue();
 
 	$Pref::Client::CustomChat::EnableClanTags = CC_ClanTagsCheck.getValue();
-	$Pref::Client::CustomChat::ClanTagsColor = CC_RGBToHex(CC_ClanTagColorBox.mColor);
+	$Pref::Client::CustomChat::ClanTagsColor = CC_RGBToHex(getWords(CC_ClanTagColorBox.mColor, 0, 2));
 
-	$Pref::Client::CustomChat::MessageColor = CC_RGBToHex(CC_MessageColorBox.mColor);
-	$Pref::Client::CustomChat::SelfMsgColor = CC_RGBToHex(CC_SelfMessageColorBox.mColor);
+	$Pref::Client::CustomChat::MessageColor = CC_RGBToHex(getWords(CC_MessageColorBox.mColor, 0, 2));
+	$Pref::Client::CustomChat::SelfMsgColor = CC_RGBToHex(getWords(CC_SelfMessageColorBox.mColor, 0, 2));
 
 	$Pref::Client::CustomChat::LogMode = %window.loggingMode;
 	$Pref::Client::CustomChat::LogDir = CC_LogDirInput.getValue();
@@ -148,7 +152,7 @@ function saveCustomChatSettings() {
 	$Pref::Client::CustomChat::TimestampMode = %window.tsModeSetting;
 	$Pref::Client::CustomChat::HourMode = %window.tsFormatSetting;
 	$Pref::Client::CustomChat::ShowSecondsInTimestamp = CC_TimestampSecondsCheck.getValue();
-	$Pref::Client::CustomChat::TimestampColor = CC_RGBToHex(CC_TimestampColorBox.mColor);
+	$Pref::Client::CustomChat::TimestampColor = CC_RGBToHex(getWords(CC_TimestampColorBox.mColor, 0, 2));
 
 	%msgSoundFilename = CC_NewMsgSoundInput.getValue();
 	if(%msgSoundFilename !$= $Pref::Client::CustomChat::MessageSoundFilename) {
@@ -177,6 +181,10 @@ function saveCustomChatSettings() {
 		}
 	}
 	$Pref::Client::CustomChat::SelfMessageSoundFilename = CC_SentMsgSoundInput.getValue();
+
+	$Pref::Client::CustomChat::EnableSwearFiltering = CC_EnableSwearFilteringCheck.getValue();
+	$Pref::Client::CustomChat::SwearList = CC_SwearFilterInput.getValue();
+	$Pref::Client::CustomChat::EnableAutoPunctuation = CC_EnableAutoPunctuationCheck.getValue();
 
 	messageBoxOK("", "Chat settings were saved.");
 
@@ -230,7 +238,7 @@ function setCCTimestampFormatSetting(%value) {
 }
 
 
-function openCustomChatColorChooser(%name, %box, %hex) {
+function openCustomChatColorChooser(%name, %box, %hex, %alpha) {
 	%value = %box.mColor;
 
 	canvas.pushDialog("CustomChatColorGui");
@@ -248,6 +256,15 @@ function openCustomChatColorChooser(%name, %box, %hex) {
 		%window.isHex = 0;
 	}
 
+	if(%alpha) {
+		CustomChatColorChooserAlphaSlider.setVisible(1);
+		CustomChatColorChooserAlphaSlider.setValue(getWord(%value, 3));
+		%window.isAlpha = 1;
+	} else {
+		CustomChatColorChooserAlphaSlider.setVisible(0);
+		%window.isAlpha = 0;
+	}
+
 	CustomChatColorChooserRedSlider.setValue(getWord(%value, 0));
 	CustomChatColorChooserGreenSlider.setValue(getWord(%value, 1));
 	CustomChatColorChooserBlueSlider.setValue(getWord(%value, 2));
@@ -260,25 +277,30 @@ function CCC_sliderUpdate(%slider) {
 	updateCCColor();
 }
 
-function updateCCColor(%red, %green, %blue) {
+function updateCCColor(%red, %green, %blue, %alpha) {
 	%window = CustomChatColorChooserWindow;
 
 	if(%red $= "") {
 		%red = CustomChatColorChooserRedSlider.getValue();
 		%green = CustomChatColorChooserGreenSlider.getValue();
 		%blue = CustomChatColorChooserBlueSlider.getValue();
+		%alpha = CustomChatColorChooserAlphaSlider.getValue();
 	}
 
-	%value = %red SPC %green SPC %blue;
+	%value = %red SPC %green SPC %blue SPC (%window.isAlpha ? CustomChatColorChooserAlphaSlider.getValue() : 255);
 	CustomChatColorChooserBox.color = %value;
 
 	if(%window.isHex) {
-		%value = CC_RGBToHex(%red SPC %green SPC %blue);
-		CustomChatColorChooserBox.color = %red SPC %green SPC %blue SPC "255";
+		if(%window.isAlpha) {
+			CustomChatColorChooserBox.color = %value;
+			%value = CC_RGBToHex(%value);
+		} else {
+			%value = CC_RGBToHex(%red SPC %green SPC %blue);
+			CustomChatColorChooserBox.color = %red SPC %green SPC %blue SPC "255";
+		}
 
 		CustomChatColorChooserHex.setText("<font:Arial Bold:14><color:ffffff><just:center>#" @ strUpr(%value));
 	} else {
-		%value = %value SPC "255";
 		CustomChatColorChooserBox.color = %value;
 	}
 }
@@ -290,8 +312,8 @@ function selectCCColor() {
 	%green = CustomChatColorChooserGreenSlider.getValue();
 	%blue = CustomChatColorChooserBlueSlider.getValue();
 
-	%value = %red SPC %green SPC %blue;
-	%window.activeBox.mColor = %value SPC "255";
+	%value = %red SPC %green SPC %blue SPC (%window.isAlpha ? CustomChatColorChooserAlphaSlider.getValue() : 255);
+	%window.activeBox.mColor = %value;
 
 	canvas.popDialog(CustomChatColorGui);
 }
@@ -300,10 +322,12 @@ function randomizeCCColor() {
 	%red = getRandom(0, 255);
 	%green = getRandom(0, 255);
 	%blue = getRandom(0, 255);
+	%alpha = getRandom(0, 255);
 
-	updateCCColor(%red, %green, %blue);
+	updateCCColor(%red, %green, %blue, %alpha);
 
 	CustomChatColorChooserRedSlider.setValue(%red);
 	CustomChatColorChooserGreenSlider.setValue(%green);
 	CustomChatColorChooserBlueSlider.setValue(%blue);
+	CustomChatColorChooserBlueSlider.setValue(%alpha);
 }

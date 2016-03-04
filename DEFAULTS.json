@@ -75,5 +75,10 @@
 		"$Pref::Client::CustomChat::EnableRanks": 0,
 		"$Pref::Client::CustomChat::AdminRankString": "\c7[\c2A\c7]",
 		"$Pref::Client::CustomChat::SuperAdminRankString": "\c7[\c0S\c7]"
+	},
+	"Filters": {
+		"$Pref::Client::CustomChat::EnableSwearFiltering": 0,
+		"$Pref::Client::CustomChat::SwearList": "",
+		"$Pref::Client::CustomChat::EnableAutoPunctuation": 0
 	}
 }
