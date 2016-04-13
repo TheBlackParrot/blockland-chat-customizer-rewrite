@@ -1,0 +1,110 @@
+//--- OBJECT WRITE BEGIN ---
+new GuiControl(CCCtempswatch) {
+   profile = "GuiDefaultProfile";
+   horizSizing = "right";
+   vertSizing = "bottom";
+   position = "0 0";
+   extent = "800 600";
+   minExtent = "8 2";
+   enabled = "1";
+   visible = "1";
+   clipToParent = "1";
+
+   new GuiSwatchCtrl(CCC_ExtraSwatch_Filtering) {
+      profile = "GuiDefaultProfile";
+      horizSizing = "right";
+      vertSizing = "bottom";
+      position = "0 0";
+      extent = "494 112";
+      minExtent = "8 2";
+      enabled = "1";
+      visible = "1";
+      clipToParent = "1";
+      color = "255 255 255 255";
+
+      new GuiSwatchCtrl() {
+         profile = "GuiDefaultProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "0 0";
+         extent = "494 20";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         color = "0 0 0 255";
+
+         new GuiTextCtrl() {
+            profile = "OptionsMenuTextProfile";
+            horizSizing = "right";
+            vertSizing = "bottom";
+            position = "5 1";
+            extent = "65 18";
+            minExtent = "8 2";
+            enabled = "1";
+            visible = "1";
+            clipToParent = "1";
+            text = "Filtering";
+            maxLength = "255";
+         };
+      };
+      new GuiCheckBoxCtrl(CC_EnableSwearFilteringCheck) {
+         profile = "GuiCheckBoxProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "15 28";
+         extent = "281 20";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         text = " \c5[EXPERIMENTAL] \c0Filter unwanted words";
+         groupNum = "-1";
+         buttonType = "ToggleButton";
+      };
+      new GuiTextCtrl() {
+         profile = "GuiTextProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "16 56";
+         extent = "58 18";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         text = "Filter Words";
+         maxLength = "255";
+      };
+      new GuiCheckBoxCtrl(CC_EnableAutoPunctuationCheck) {
+         profile = "GuiCheckBoxProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "15 84";
+         extent = "174 20";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         text = " Auto-punctuate chat messages";
+         groupNum = "-1";
+         buttonType = "ToggleButton";
+      };
+      new GuiTextEditCtrl(CC_SwearFilterInput) {
+         profile = "GuiTextEditProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "218 56";
+         extent = "244 18";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         maxLength = "255";
+         historySize = "0";
+         password = "0";
+         tabComplete = "0";
+         sinkAllKeyEvents = "0";
+      };
+   };
+};
+//--- OBJECT WRITE END ---

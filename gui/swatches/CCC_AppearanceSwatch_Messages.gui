@@ -1,0 +1,149 @@
+//--- OBJECT WRITE BEGIN ---
+new GuiControl(CCCtempswatch) {
+   profile = "GuiDefaultProfile";
+   horizSizing = "right";
+   vertSizing = "bottom";
+   position = "0 0";
+   extent = "800 600";
+   minExtent = "8 2";
+   enabled = "1";
+   visible = "1";
+   clipToParent = "1";
+
+   new GuiSwatchCtrl(CCC_AppearanceSwatch_Messages) {
+      profile = "GuiDefaultProfile";
+      horizSizing = "right";
+      vertSizing = "bottom";
+      position = "0 0";
+      extent = "494 52";
+      minExtent = "8 2";
+      enabled = "1";
+      visible = "1";
+      clipToParent = "1";
+      color = "255 255 255 255";
+
+      new GuiSwatchCtrl() {
+         profile = "GuiDefaultProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "0 0";
+         extent = "494 20";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         color = "0 0 0 255";
+
+         new GuiTextCtrl() {
+            profile = "OptionsMenuTextProfile";
+            horizSizing = "right";
+            vertSizing = "bottom";
+            position = "5 1";
+            extent = "52 18";
+            minExtent = "8 2";
+            enabled = "1";
+            visible = "1";
+            clipToParent = "1";
+            text = "Messages";
+            maxLength = "255";
+         };
+      };
+      new GuiTextCtrl() {
+         profile = "GuiTextProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "16 28";
+         extent = "72 18";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         text = "Message Color";
+         maxLength = "255";
+      };
+      new GuiSwatchCtrl() {
+         profile = "GuiDefaultProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "179 28";
+         extent = "54 18";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         color = "0 0 0 255";
+
+         new GuiBitmapButtonCtrl(CC_MessageColorBox) {
+            profile = "GuiDefaultProfile";
+            horizSizing = "right";
+            vertSizing = "bottom";
+            position = "1 1";
+            extent = "52 16";
+            minExtent = "8 2";
+            enabled = "1";
+            visible = "1";
+            clipToParent = "1";
+            command = "openCustomChatColorChooser(\"Message Color\", CC_MessageColorBox, 1);";
+            text = "";
+            groupNum = "-1";
+            buttonType = "PushButton";
+            bitmap = "./images/white";
+            lockAspectRatio = "0";
+            alignLeft = "0";
+            alignTop = "0";
+            overflowImage = "0";
+            mKeepCached = "0";
+            mColor = "255 255 255 255";
+         };
+      };
+      new GuiTextCtrl() {
+         profile = "GuiTextProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "247 28";
+         extent = "99 18";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         text = "Your Message Color";
+         maxLength = "255";
+      };
+      new GuiSwatchCtrl() {
+         profile = "GuiDefaultProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "408 28";
+         extent = "54 18";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         color = "0 0 0 255";
+
+         new GuiBitmapButtonCtrl(CC_SelfMessageColorBox) {
+            profile = "GuiDefaultProfile";
+            horizSizing = "right";
+            vertSizing = "bottom";
+            position = "1 1";
+            extent = "52 16";
+            minExtent = "8 2";
+            enabled = "1";
+            visible = "1";
+            clipToParent = "1";
+            command = "openCustomChatColorChooser(\"Your Message Color\", CC_SelfMessageColorBox, 1);";
+            text = "";
+            groupNum = "-1";
+            buttonType = "PushButton";
+            bitmap = "./images/white";
+            lockAspectRatio = "0";
+            alignLeft = "0";
+            alignTop = "0";
+            overflowImage = "0";
+            mKeepCached = "0";
+            mColor = "202 202 202 255";
+         };
+      };
+   };
+};
+//--- OBJECT WRITE END ---

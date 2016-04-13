@@ -1,5 +1,6 @@
 if(!$CustomChat::InitGUI) {
 	exec("./gui/CustomChatSettings.gui");
+	exec("./gui/swatches/main.cs");
 	exec("./gui/CustomChatColorGui.gui");
 	$CustomChat::InitGUI = 1;
 }
@@ -38,6 +39,7 @@ function revertCustomChatSettings() {
 	CC_NameColorBox.mColor = HexToRGB($Pref::Client::CustomChat::NameColor) SPC "255";
 	CC_SelfNameColorBox.mColor = HexToRGB($Pref::Client::CustomChat::SelfNameColor) SPC "255";
 	CC_RandomizeNameColorsCheck.setValue(mClamp($Pref::Client::CustomChat::EnableRandomNameColors, 0, 1));
+	CC_SlayerOverrideColorsCheck.setValue(mClamp($Pref::Client::CustomChat::EnableSlayerNameColors, 0, 1));
 
 	CC_ClanTagsCheck.setValue(mClamp($Pref::Client::CustomChat::EnableClanTags, 0, 1));
 	CC_ClanTagColorBox.mColor = HexToRGB($Pref::Client::CustomChat::ClanTagsColor) SPC "255";
@@ -128,6 +130,7 @@ function saveCustomChatSettings() {
 	$Pref::Client::CustomChat::NameColor = CC_RGBToHex(getWords(CC_NameColorBox.mColor, 0, 2));
 	$Pref::Client::CustomChat::SelfNameColor = CC_RGBToHex(getWords(CC_SelfNameColorBox.mColor, 0, 2));
 	$Pref::Client::CustomChat::EnableRandomNameColors = CC_RandomizeNameColorsCheck.getValue();
+	$Pref::Client::CustomChat::EnableSlayerNameColors = CC_SlayerOverrideColorsCheck.getValue();
 
 	$Pref::Client::CustomChat::EnableClanTags = CC_ClanTagsCheck.getValue();
 	$Pref::Client::CustomChat::ClanTagsColor = CC_RGBToHex(getWords(CC_ClanTagColorBox.mColor, 0, 2));

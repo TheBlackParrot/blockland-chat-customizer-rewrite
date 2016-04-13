@@ -18,6 +18,8 @@
 //	? background color
 //		- newChatHud is an auto-reisizing MLTextCtrl object, this might involve giving it a parent SwatchCtrl
 
+// note the todo list is now moreso an idea list
+
 
 if(!isObject(ChatLogFileObject)) {
 	new FileObject(ChatLogFileObject);
@@ -163,10 +165,10 @@ function getChatTimestamp() {
 	return getUTC();
 }
 
-function isUserRanked(%who) {
+function isUserRanked(%who, %forceReload) {
 	%list = NPL_List;
 
-	if(%list.rowCount() != $CustomChat::PreviousCount) {
+	if(%list.rowCount() != $CustomChat::PreviousCount || %forceReload !$= "") {
 		$CustomChat::PreviousCount = %list.rowCount();
 
 		$CustomChat::Admins = "";
@@ -248,6 +250,22 @@ function sanitizeColorTags(%string) {
 }
 
 package CustomChatPackage {
+	function clientCmdServerMessage(%tag, %fmsg, %clanPrefix, %name, %clanSuffix, %msg, %a, %b, %idk, %d, %e, %f) {
+		// guess it wasn't enough to just modify clan tags, noooo send it through this
+
+		if(stripMLControlChars(getTaggedString(getWord(%tag, 0))) $= "chatMessage") {
+			if(getWord(stripMLControlChars(trim(%idk)), 0) $= "[DEAD]") {
+				clientCmdChatMessage(0, 0, 0, %fmsg, %clanPrefix, %name, %clanSuffix SPC "\c7[DEAD]", %msg);
+				return;
+			}
+		}
+
+		if(stripMLControlChars(getTaggedString(getWord(%tag, 0))) $= "MsgAdminForce") {
+			isUserRanked(%clanPrefix, 1);
+		}
+
+		return parent::clientCmdServerMessage(%tag, %fmsg, %clanPrefix, %name, %clanSuffix, %msg, %a, %b, %idk, %d, %e, %f);
+	}
 	function clientCmdChatMessage(%a, %b, %c, %fmsg, %clanPrefix, %name, %clanSuffix, %msg, %color) {
 		// %color is for slayer
 		%soundMode = $Pref::Client::CustomChat::SoundNotificationMode;
@@ -262,9 +280,14 @@ package CustomChatPackage {
 			return parent::clientCmdChatMessage(%a, %b, %c, %fmsg, %clanPrefix, %name, %clanSuffix, %msg);
 		}
 
+		%slayerDot = "";
 		if(%taggedString $= "%1%5%2%3%7: %4") {
-			%forcedColor = %color;
-			%forceAllowColor = 1;
+			if($Pref::Client::CustomChat::EnableSlayerNameColors) {
+				%forcedColor = %color;
+				%forceAllowColor = 1;
+			} else {
+				%slayerDot = %color @ "== ";
+			}
 		}
 
 		// might as well do this before everything
@@ -311,8 +334,10 @@ package CustomChatPackage {
 		}
 
 		if($Pref::Client::CustomChat::EchoChatToConsole) {
-			// TODO: Detect if a server is running
-			echo(stripMLControlChars(%name @ ":" SPC %msg));
+			// this seems to work for preventing duplicate messages
+			if(!isObject(MissionCleanup)) {
+				echo(stripMLControlChars(%name @ ":" SPC %msg));
+			}
 		}
 
 		if($Pref::Client::CustomChat::LogMode >= 1) {
@@ -373,7 +398,7 @@ package CustomChatPackage {
 			%msg = CC_autoPunctuateString(%msg);
 		}
 
-		%fmsg = getWord(%fmsg, 0) SPC %time @ %rank @ %clanPrefix @ %forcedColor @ %name @ %clanSuffix @ %preMsg @ ":" SPC %msg;
+		%fmsg = getWord(%fmsg, 0) SPC %time @ %rank @ %slayerDot @ %clanPrefix @ %forcedColor @ %name @ %clanSuffix @ %preMsg @ ":" SPC %msg;
 
 		return parent::clientCmdChatMessage(%a, %b, %c, %fmsg, %clanPrefix, %name, %clanSuffix, %msg);
 	}
@@ -411,5 +436,5 @@ package CustomChatPackage {
 };
 activatePackage(CustomChatPackage);
 
-$CustomChat::Version = "0.1.0-1";
+$CustomChat::Version = "0.1.1-1";
 echo("Executed Client_CustomChat v" @ $CustomChat::Version);

@@ -1,0 +1,142 @@
+//--- OBJECT WRITE BEGIN ---
+new GuiControl(CCCtempswatch) {
+   profile = "GuiDefaultProfile";
+   horizSizing = "right";
+   vertSizing = "bottom";
+   position = "0 0";
+   extent = "800 600";
+   minExtent = "8 2";
+   enabled = "1";
+   visible = "1";
+   clipToParent = "1";
+
+   new GuiSwatchCtrl(CCC_LoggingSwatch) {
+      profile = "GuiDefaultProfile";
+      horizSizing = "right";
+      vertSizing = "bottom";
+      position = "0 0";
+      extent = "494 124";
+      minExtent = "8 2";
+      enabled = "1";
+      visible = "1";
+      clipToParent = "1";
+      color = "255 255 255 255";
+
+      new GuiTextCtrl() {
+         profile = "GuiTextProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "16 10";
+         extent = "42 18";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         text = "Log chat";
+         maxLength = "255";
+      };
+      new GuiTextCtrl() {
+         profile = "GuiTextProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "16 38";
+         extent = "58 18";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         text = "Log location";
+         maxLength = "255";
+      };
+      new GuiCheckBoxCtrl(CC_StripMLCheck) {
+         profile = "GuiCheckBoxProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "15 66";
+         extent = "278 20";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         text = " Strip excess control characters (text only)";
+         groupNum = "-1";
+         buttonType = "ToggleButton";
+      };
+      new GuiCheckBoxCtrl(CC_EchoChatCheck) {
+         profile = "GuiCheckBoxProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "15 94";
+         extent = "278 20";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         text = " Echo chat to the console";
+         groupNum = "-1";
+         buttonType = "ToggleButton";
+      };
+      new GuiTextEditCtrl(CC_LogDirInput) {
+         profile = "GuiTextEditProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "217 38";
+         extent = "245 18";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         maxLength = "255";
+         historySize = "0";
+         password = "0";
+         tabComplete = "0";
+         sinkAllKeyEvents = "0";
+      };
+      new GuiRadioCtrl(CC_LoggingMode0) {
+         profile = "GuiRadioProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "217 10";
+         extent = "37 20";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         command = "setCCLoggingSetting(0);";
+         text = " Off";
+         groupNum = "2";
+         buttonType = "RadioButton";
+      };
+      new GuiRadioCtrl(CC_LoggingMode1) {
+         profile = "GuiRadioProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "270 10";
+         extent = "96 20";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         command = "setCCLoggingSetting(1);";
+         text = " Chat messages";
+         groupNum = "2";
+         buttonType = "RadioButton";
+      };
+      new GuiRadioCtrl(CC_LoggingMode2) {
+         profile = "GuiRadioProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "381 10";
+         extent = "96 20";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         command = "setCCLoggingSetting(2);";
+         text = " All messages";
+         groupNum = "2";
+         buttonType = "RadioButton";
+      };
+   };
+};
+//--- OBJECT WRITE END ---

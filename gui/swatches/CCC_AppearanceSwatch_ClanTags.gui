@@ -1,0 +1,115 @@
+//--- OBJECT WRITE BEGIN ---
+new GuiControl(CCCtempswatch) {
+   profile = "GuiDefaultProfile";
+   horizSizing = "right";
+   vertSizing = "bottom";
+   position = "0 0";
+   extent = "800 600";
+   minExtent = "8 2";
+   enabled = "1";
+   visible = "1";
+   clipToParent = "1";
+
+   new GuiSwatchCtrl(CCC_AppearanceSwatch_ClanTags) {
+      profile = "GuiDefaultProfile";
+      horizSizing = "right";
+      vertSizing = "bottom";
+      position = "0 0";
+      extent = "494 84";
+      minExtent = "8 2";
+      enabled = "1";
+      visible = "1";
+      clipToParent = "1";
+      color = "255 255 255 255";
+
+      new GuiSwatchCtrl() {
+         profile = "GuiDefaultProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "0 0";
+         extent = "494 20";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         color = "0 0 0 255";
+
+         new GuiTextCtrl() {
+            profile = "OptionsMenuTextProfile";
+            horizSizing = "right";
+            vertSizing = "bottom";
+            position = "5 1";
+            extent = "52 18";
+            minExtent = "8 2";
+            enabled = "1";
+            visible = "1";
+            clipToParent = "1";
+            text = "Clan Tags";
+            maxLength = "255";
+         };
+      };
+      new GuiCheckBoxCtrl(CC_ClanTagsCheck) {
+         profile = "GuiCheckBoxProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "15 28";
+         extent = "140 20";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         text = " Enable clan tags";
+         groupNum = "-1";
+         buttonType = "ToggleButton";
+      };
+      new GuiTextCtrl() {
+         profile = "GuiTextProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "16 56";
+         extent = "70 18";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         text = "Clan Tag Color";
+         maxLength = "255";
+      };
+      new GuiSwatchCtrl() {
+         profile = "GuiDefaultProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "408 56";
+         extent = "54 18";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         color = "0 0 0 255";
+
+         new GuiBitmapButtonCtrl(CC_ClanTagColorBox) {
+            profile = "GuiDefaultProfile";
+            horizSizing = "right";
+            vertSizing = "bottom";
+            position = "1 1";
+            extent = "52 16";
+            minExtent = "8 2";
+            enabled = "1";
+            visible = "1";
+            clipToParent = "1";
+            command = "openCustomChatColorChooser(\"Clan Tags\", CC_ClanTagColorBox, 1);";
+            text = "";
+            groupNum = "-1";
+            buttonType = "PushButton";
+            bitmap = "./images/white";
+            lockAspectRatio = "0";
+            alignLeft = "0";
+            alignTop = "0";
+            overflowImage = "0";
+            mKeepCached = "0";
+            mColor = "255 255 255 255";
+         };
+      };
+   };
+};
+//--- OBJECT WRITE END ---

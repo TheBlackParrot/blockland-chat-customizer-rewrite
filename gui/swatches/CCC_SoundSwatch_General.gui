@@ -1,0 +1,169 @@
+//--- OBJECT WRITE BEGIN ---
+new GuiControl(CCCtempswatch) {
+   profile = "GuiDefaultProfile";
+   horizSizing = "right";
+   vertSizing = "bottom";
+   position = "0 0";
+   extent = "800 600";
+   minExtent = "8 2";
+   enabled = "1";
+   visible = "1";
+   clipToParent = "1";
+
+   new GuiSwatchCtrl(CCC_SoundSwatch_General) {
+      profile = "GuiDefaultProfile";
+      horizSizing = "right";
+      vertSizing = "bottom";
+      position = "0 0";
+      extent = "494 112";
+      minExtent = "8 2";
+      enabled = "1";
+      visible = "1";
+      clipToParent = "1";
+      color = "255 255 255 255";
+
+      new GuiSwatchCtrl() {
+         profile = "GuiDefaultProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "0 0";
+         extent = "494 20";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         color = "0 0 0 255";
+
+         new GuiTextCtrl() {
+            profile = "OptionsMenuTextProfile";
+            horizSizing = "right";
+            vertSizing = "bottom";
+            position = "5 1";
+            extent = "107 18";
+            minExtent = "8 2";
+            enabled = "1";
+            visible = "1";
+            clipToParent = "1";
+            text = "General";
+            maxLength = "255";
+         };
+      };
+      new GuiTextCtrl() {
+         profile = "GuiTextProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "16 28";
+         extent = "92 18";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         text = "Message blip mode";
+         maxLength = "255";
+      };
+      new GuiRadioCtrl(CC_MsgSoundSetting0) {
+         profile = "GuiRadioProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "196 28";
+         extent = "37 20";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         command = "setCCMessageSoundSetting(0);";
+         text = " Off";
+         groupNum = "1";
+         buttonType = "RadioButton";
+      };
+      new GuiRadioCtrl(CC_MsgSoundSetting1) {
+         profile = "GuiRadioProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "249 28";
+         extent = "117 20";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         command = "setCCMessageSoundSetting(1);";
+         text = " Received messages";
+         groupNum = "1";
+         buttonType = "RadioButton";
+      };
+      new GuiRadioCtrl(CC_MsgSoundSetting2) {
+         profile = "GuiRadioProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "381 28";
+         extent = "96 20";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         command = "setCCMessageSoundSetting(2);";
+         text = " All messages";
+         groupNum = "1";
+         buttonType = "RadioButton";
+      };
+      new GuiTextEditCtrl(CC_NewMsgSoundInput) {
+         profile = "GuiTextEditProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "217 56";
+         extent = "245 18";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         maxLength = "255";
+         historySize = "0";
+         password = "0";
+         tabComplete = "0";
+         sinkAllKeyEvents = "0";
+      };
+      new GuiTextEditCtrl(CC_SentMsgSoundInput) {
+         profile = "GuiTextEditProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "217 84";
+         extent = "245 18";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         maxLength = "255";
+         historySize = "0";
+         password = "0";
+         tabComplete = "0";
+         sinkAllKeyEvents = "0";
+      };
+      new GuiTextCtrl() {
+         profile = "GuiTextProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "16 84";
+         extent = "145 18";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         text = "Sound for sending a message";
+         maxLength = "255";
+      };
+      new GuiTextCtrl() {
+         profile = "GuiTextProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "16 56";
+         extent = "129 18";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         text = "Sound for a new message";
+         maxLength = "255";
+      };
+   };
+};
+//--- OBJECT WRITE END ---

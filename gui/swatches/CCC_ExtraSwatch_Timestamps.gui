@@ -1,0 +1,231 @@
+//--- OBJECT WRITE BEGIN ---
+new GuiControl(CCCtempswatch) {
+   profile = "GuiDefaultProfile";
+   horizSizing = "right";
+   vertSizing = "bottom";
+   position = "0 0";
+   extent = "800 600";
+   minExtent = "8 2";
+   enabled = "1";
+   visible = "1";
+   clipToParent = "1";
+
+   new GuiSwatchCtrl(CCC_ExtraSwatch_Timestamps) {
+      profile = "GuiDefaultProfile";
+      horizSizing = "right";
+      vertSizing = "bottom";
+      position = "0 0";
+      extent = "494 140";
+      minExtent = "8 2";
+      enabled = "1";
+      visible = "1";
+      clipToParent = "1";
+      color = "255 255 255 255";
+
+      new GuiSwatchCtrl() {
+         profile = "GuiDefaultProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "0 0";
+         extent = "494 20";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         color = "0 0 0 255";
+
+         new GuiTextCtrl() {
+            profile = "OptionsMenuTextProfile";
+            horizSizing = "right";
+            vertSizing = "bottom";
+            position = "5 1";
+            extent = "65 18";
+            minExtent = "8 2";
+            enabled = "1";
+            visible = "1";
+            clipToParent = "1";
+            text = "Timestamps";
+            maxLength = "255";
+         };
+      };
+      new GuiTextCtrl() {
+         profile = "GuiTextProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "16 28";
+         extent = "86 18";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         text = "Show timestamps";
+         maxLength = "255";
+      };
+      new GuiTextCtrl() {
+         profile = "GuiTextProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "16 56";
+         extent = "56 18";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         text = "Time format";
+         maxLength = "255";
+      };
+      new GuiCheckBoxCtrl(CC_TimestampSecondsCheck) {
+         profile = "GuiCheckBoxProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "15 84";
+         extent = "174 20";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         text = " Show seconds in the timestamp";
+         groupNum = "-1";
+         buttonType = "ToggleButton";
+      };
+      new GuiTextCtrl() {
+         profile = "GuiTextProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "16 112";
+         extent = "78 18";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         text = "Timestamp color";
+         maxLength = "255";
+      };
+      new GuiRadioCtrl(CC_TimestampModeSetting0) {
+         profile = "GuiRadioProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "217 28";
+         extent = "37 20";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         command = "setCCTimestampModeSetting(0);";
+         text = " Off";
+         groupNum = "3";
+         buttonType = "RadioButton";
+      };
+      new GuiRadioCtrl(CC_TimestampFormatSetting0) {
+         profile = "GuiRadioProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "228 56";
+         extent = "57 20";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         command = "setCCTimestampFormatSetting(0);";
+         text = " 12 hour";
+         groupNum = "4";
+         buttonType = "RadioButton";
+      };
+      new GuiRadioCtrl(CC_TimestampModeSetting1) {
+         profile = "GuiRadioProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "270 28";
+         extent = "96 20";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         command = "setCCTimestampModeSetting(1);";
+         text = " Chat messages";
+         groupNum = "3";
+         buttonType = "RadioButton";
+      };
+      new GuiRadioCtrl(CC_TimestampFormatSetting1) {
+         profile = "GuiRadioProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "301 56";
+         extent = "57 20";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         command = "setCCTimestampFormatSetting(1);";
+         text = " 24 hour";
+         groupNum = "4";
+         buttonType = "RadioButton";
+      };
+      new GuiRadioCtrl(CC_TimestampModeSetting2) {
+         profile = "GuiRadioProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "381 28";
+         extent = "96 20";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         command = "setCCTimestampModeSetting(2);";
+         text = " All messages";
+         groupNum = "3";
+         buttonType = "RadioButton";
+      };
+      new GuiRadioCtrl(CC_TimestampFormatSetting2) {
+         profile = "GuiRadioProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "374 56";
+         extent = "90 20";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         command = "setCCTimestampFormatSetting(2);";
+         text = " Unix timestamp";
+         groupNum = "4";
+         buttonType = "RadioButton";
+      };
+      new GuiSwatchCtrl() {
+         profile = "GuiDefaultProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "408 112";
+         extent = "54 18";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         color = "0 0 0 255";
+
+         new GuiBitmapButtonCtrl(CC_TimestampColorBox) {
+            profile = "GuiDefaultProfile";
+            horizSizing = "right";
+            vertSizing = "bottom";
+            position = "1 1";
+            extent = "52 16";
+            minExtent = "8 2";
+            enabled = "1";
+            visible = "1";
+            clipToParent = "1";
+            command = "openCustomChatColorChooser(\"Timestamps\", CC_TimestampColorBox, 1);";
+            text = "";
+            groupNum = "-1";
+            buttonType = "PushButton";
+            bitmap = "./images/white";
+            lockAspectRatio = "0";
+            alignLeft = "0";
+            alignTop = "0";
+            overflowImage = "0";
+            mKeepCached = "0";
+            mColor = "150 255 0 255";
+         };
+      };
+   };
+};
+//--- OBJECT WRITE END ---

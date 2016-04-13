@@ -9,8 +9,8 @@
 			[
 				{
 					"name": "default",
-					"version": "0.1.0-1",
-					"restartRequired": "0.1.0-1",
+					"version": "0.1.1-1",
+					"restartRequired": "0.1.1-1",
 					"file": "theblackparrot.github.io/blockland-chat-customizer-rewrite/Client_CustomChat.zip"
 				}
 			]
