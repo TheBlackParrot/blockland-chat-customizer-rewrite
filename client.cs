@@ -36,6 +36,7 @@ exec("./support.cs");
 exec("./overrides.cs");
 exec("./wrappers.cs");
 exec("./gui.cs");
+exec("./string.cs");
 
 if($Pref::Client::CustomChat::SoundNotificationMode $= "") {
 	// 0 = off, 1 = non-self messages, 2 = all chat messages
@@ -117,6 +118,12 @@ if($Pref::Client::CustomChat::SoundNotificationMode $= "") {
 	$Pref::Client::CustomChat::SwearList = "";
 
 	$Pref::Client::CustomChat::EnableAutoPunctuation = 0;
+
+	$Pref::Client::CustomChat::EnableCustomString = 0;
+}
+
+if(!$CustomChat::TotalMessages $= "") {
+	$CustomChat::TotalMessages = 0;
 }
 
 updateFontFamily($Pref::Client::CustomChat::FontFamily);
@@ -280,6 +287,8 @@ package CustomChatPackage {
 			return parent::clientCmdChatMessage(%a, %b, %c, %fmsg, %clanPrefix, %name, %clanSuffix, %msg);
 		}
 
+		$CustomChat::TotalMessages++;
+
 		%slayerDot = "";
 		if(%taggedString $= "%1%5%2%3%7: %4") {
 			if($Pref::Client::CustomChat::EnableSlayerNameColors) {
@@ -324,15 +333,6 @@ package CustomChatPackage {
 			}
 		}
 
-		// things involving names need to be done first
-		%rank = "";
-		if($Pref::Client::CustomChat::EnableRanks) {
-			switch(isUserRanked(%name)) {
-				case 1: %rank = $Pref::Client::CustomChat::AdminRankString @ " ";
-				case 2: %rank = $Pref::Client::CustomChat::SuperAdminRankString @ " ";
-			}
-		}
-
 		if($Pref::Client::CustomChat::EchoChatToConsole) {
 			// this seems to work for preventing duplicate messages
 			if(!isObject(MissionCleanup)) {
@@ -349,26 +349,10 @@ package CustomChatPackage {
 			if(%soundMode == 2) {
 				alxPlay(CustomChatSelfMsgNotify);
 			}
-
-			if(!%forceAllowColor) {
-				%name = "<color:" @ $Pref::Client::CustomChat::SelfNameColor @ ">" @ %name;
-			}
-			%preMsg = "<color:" @ $Pref::Client::CustomChat::SelfMsgColor @ ">";
 		} else {
 			if(%soundMode >= 1) {
 				alxPlay(CustomChatMsgNotify);
 			}
-
-			if(!%forceAllowColor) {
-				if(!$Pref::Client::CustomChat::EnableRandomNameColors) {
-					%name = "<color:" @ $Pref::Client::CustomChat::NameColor @ ">" @ %name;
-				} else {
-					// random name colors are actually psuedo-random (shhhh)
-					%name = "<color:" @ getRandomNameColor(%name) @ ">" @ %name;
-				}
-			}
-
-			%preMsg = "<color:" @ $Pref::Client::CustomChat::MessageColor @ ">";
 		}
 
 		if($Pref::Client::CustomChat::EnableBuzzwords) {
@@ -379,6 +363,50 @@ package CustomChatPackage {
 					break;
 				}
 			}
+		}
+
+		if($Pref::Client::CustomChat::EnableAutoPunctuation) {
+			%msg = CC_autoPunctuateString(%msg);
+		}
+
+		if($Pref::Client::CustomChat::EnableCustomString || $CustomChat::ForceString) {
+			%all = CC_getCustomChatString(%clanPrefix, %name, %clanSuffix, %msg, %color);
+			%fmsg = getWord(%fmsg, 0) SPC %all;
+
+			if($CustomChat::Debug) {
+				NewChatSO.addLine($Pref::Client::CustomChat::CustomChatString);
+			}
+			return parent::clientCmdChatMessage(%a, %b, %c, %fmsg, %clanPrefix, %name, %clanSuffix, %msg);
+		}
+
+
+		// IF CUSTOM STRING IS DISABLED: FALLBACK TO OLD SYSTEM
+
+
+		%rank = "";
+		if($Pref::Client::CustomChat::EnableRanks) {
+			switch(isUserRanked(%name)) {
+				case 1: %rank = $Pref::Client::CustomChat::AdminRankString @ " ";
+				case 2: %rank = $Pref::Client::CustomChat::SuperAdminRankString @ " ";
+			}
+		}
+
+		if(stripMLControlChars(%name) $= $pref::Player::NetName || stripMLControlChars(%name) $= $pref::Player::LANName) {
+			if(!%forceAllowColor) {
+				%name = "<color:" @ $Pref::Client::CustomChat::SelfNameColor @ ">" @ %name;
+			}
+			%preMsg = "<color:" @ $Pref::Client::CustomChat::SelfMsgColor @ ">";
+		} else {
+			if(!%forceAllowColor) {
+				if(!$Pref::Client::CustomChat::EnableRandomNameColors) {
+					%name = "<color:" @ $Pref::Client::CustomChat::NameColor @ ">" @ %name;
+				} else {
+					// random name colors are actually psuedo-random (shhhh)
+					%name = "<color:" @ getRandomNameColor(%name) @ ">" @ %name;
+				}
+			}
+
+			%preMsg = "<color:" @ $Pref::Client::CustomChat::MessageColor @ ">";
 		}
 
 		if(!$Pref::Client::CustomChat::EnableClanTags) {
@@ -392,10 +420,6 @@ package CustomChatPackage {
 		%time = "";
 		if($Pref::Client::CustomChat::TimestampMode == 1) {
 			%time = "<color:" @ $Pref::Client::CustomChat::TimestampColor @ ">" @ getChatTimestamp() @ " ";
-		}
-
-		if($Pref::Client::CustomChat::EnableAutoPunctuation) {
-			%msg = CC_autoPunctuateString(%msg);
 		}
 
 		%fmsg = getWord(%fmsg, 0) SPC %time @ %rank @ %slayerDot @ %clanPrefix @ %forcedColor @ %name @ %clanSuffix @ %preMsg @ ":" SPC %msg;
@@ -433,8 +457,16 @@ package CustomChatPackage {
 		// \cr wouldn't work. :(
 		return parent::addLine(%this, %pre @ %time @ "<color:" @ CC_RGBToHex($Pref::Client::CustomChat::Color0) @ ">" @ %msg, %a, %b, %c);
 	}
+
+	function disconnect(%a) {
+		if($CustomChat::ForceString) {
+			$CustomChat::ForceString = 0;
+		}
+		
+		return parent::disconnect(%a);
+	}
 };
 activatePackage(CustomChatPackage);
 
-$CustomChat::Version = "0.1.1-1";
+$CustomChat::Version = "0.2.0-1";
 echo("Executed Client_CustomChat v" @ $CustomChat::Version);

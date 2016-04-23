@@ -87,6 +87,9 @@ function revertCustomChatSettings() {
 	CC_EnableSwearFilteringCheck.setValue(mClamp($Pref::Client::CustomChat::EnableSwearFiltering, 0, 1));
 	CC_SwearFilterInput.setValue(escapeColorChars($Pref::Client::CustomChat::SwearList));
 	CC_EnableAutoPunctuationCheck.setValue(mClamp($Pref::Client::CustomChat::EnableAutoPunctuation, 0, 1));
+
+	CC_CustomStringsCheck.setValue(mClamp($Pref::Client::CustomChat::EnableCustomString, 0, 1));
+	CC_CustomStringInput.setValue(escapeColorChars($Pref::Client::CustomChat::CustomChatString));
 }
 
 function openCustomChatSettings() {
@@ -156,6 +159,9 @@ function saveCustomChatSettings() {
 	$Pref::Client::CustomChat::HourMode = %window.tsFormatSetting;
 	$Pref::Client::CustomChat::ShowSecondsInTimestamp = CC_TimestampSecondsCheck.getValue();
 	$Pref::Client::CustomChat::TimestampColor = CC_RGBToHex(getWords(CC_TimestampColorBox.mColor, 0, 2));
+
+	$Pref::Client::CustomChat::EnableCustomString = CC_CustomStringsCheck.getValue();
+	$Pref::Client::CustomChat::CustomChatString = collapseEscape(CC_CustomStringInput.getValue());
 
 	%msgSoundFilename = CC_NewMsgSoundInput.getValue();
 	if(%msgSoundFilename !$= $Pref::Client::CustomChat::MessageSoundFilename) {
