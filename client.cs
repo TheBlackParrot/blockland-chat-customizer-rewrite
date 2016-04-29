@@ -126,6 +126,11 @@ if(!$CustomChat::TotalMessages $= "") {
 	$CustomChat::TotalMessages = 0;
 }
 
+// didn't exist pre v0.2.1-1
+if($Pref::Client::CustomChat::HostRankString $= "") {
+	$Pref::Client::CustomChat::HostRankString = "\c7[\c5H\c7]";
+}
+
 updateFontFamily($Pref::Client::CustomChat::FontFamily);
 updateFontSize($Pref::Client::CustomChat::FontSize);
 
@@ -193,6 +198,14 @@ function isUserRanked(%who, %forceReload) {
 		}
 	}
 
+	if(strStr(getField($CustomChat::CurrentServer, 2), %who) != -1) {
+		return 3;
+	}
+	if(isObject(MissionCleanup)) {
+		if(%who $= $pref::Player::NetName) {
+			return 3;
+		}
+	}
 	if(stripos($CustomChat::Admins, %who) != -1) {
 		return 1;
 	}
@@ -388,6 +401,7 @@ package CustomChatPackage {
 			switch(isUserRanked(%name)) {
 				case 1: %rank = $Pref::Client::CustomChat::AdminRankString @ " ";
 				case 2: %rank = $Pref::Client::CustomChat::SuperAdminRankString @ " ";
+				case 3: %rank = $Pref::Client::CustomChat::HostRankString @ " ";
 			}
 		}
 
@@ -465,8 +479,15 @@ package CustomChatPackage {
 		
 		return parent::disconnect(%a);
 	}
+
+	function LoadingGui::onWake(%this) {
+		parent::onWake(%this);
+
+		// only thing i could think of :(
+		$CustomChat::CurrentServer = JS_serverList.getRowTextByID(JS_serverList.getSelectedID());
+	}
 };
 activatePackage(CustomChatPackage);
 
-$CustomChat::Version = "0.2.0-1";
+$CustomChat::Version = "0.2.1-dev1";
 echo("Executed Client_CustomChat v" @ $CustomChat::Version);

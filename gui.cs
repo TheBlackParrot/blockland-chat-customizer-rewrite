@@ -70,6 +70,7 @@ function revertCustomChatSettings() {
 	CC_EnableAdminRanksCheck.setValue(mClamp($Pref::Client::CustomChat::EnableRanks, 0, 1));
 	CC_AdminRankStringInput.setValue(escapeColorChars($Pref::Client::CustomChat::AdminRankString));
 	CC_SuperAdminRankStringInput.setValue(escapeColorChars($Pref::Client::CustomChat::SuperAdminRankString));
+	CC_HostRankStringInput.setValue(escapeColorChars($Pref::Client::CustomChat::HostRankString));
 
 	for(%i=0;%i<3;%i++) {
 		%obj = "CC_TimestampModeSetting" @ %i;
@@ -154,6 +155,7 @@ function saveCustomChatSettings() {
 	$Pref::Client::CustomChat::EnableRanks = CC_EnableAdminRanksCheck.getValue();
 	$Pref::Client::CustomChat::AdminRankString = collapseEscape(CC_AdminRankStringInput.getValue());
 	$Pref::Client::CustomChat::SuperAdminRankString = collapseEscape(CC_SuperAdminRankStringInput.getValue());
+	$Pref::Client::CustomChat::HostRankString = collapseEscape(CC_HostRankStringInput.getValue());
 
 	$Pref::Client::CustomChat::TimestampMode = %window.tsModeSetting;
 	$Pref::Client::CustomChat::HourMode = %window.tsFormatSetting;

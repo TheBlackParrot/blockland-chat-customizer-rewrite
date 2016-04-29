@@ -163,6 +163,7 @@ function CC_getCustomChatString(%clanPrefix, %name, %clanSuffix, %msg, %slayerCo
 		switch(isUserRanked(%name)) {
 			case 1: %rank = $Pref::Client::CustomChat::AdminRankString;
 			case 2: %rank = $Pref::Client::CustomChat::SuperAdminRankString;
+			case 3: %rank = $Pref::Client::CustomChat::HostRankString;
 		}
 
 		%end_result = strReplace(%end_result, "%r%", %rank);
