@@ -91,6 +91,7 @@ function revertCustomChatSettings() {
 
 	CC_CustomStringsCheck.setValue(mClamp($Pref::Client::CustomChat::EnableCustomString, 0, 1));
 	CC_CustomStringInput.setValue(escapeColorChars($Pref::Client::CustomChat::CustomChatString));
+	$CustomChat::StringData = $Pref::Client::CustomChat::CustomChatString;
 }
 
 function openCustomChatSettings() {
@@ -163,7 +164,7 @@ function saveCustomChatSettings() {
 	$Pref::Client::CustomChat::TimestampColor = CC_RGBToHex(getWords(CC_TimestampColorBox.mColor, 0, 2));
 
 	$Pref::Client::CustomChat::EnableCustomString = CC_CustomStringsCheck.getValue();
-	$Pref::Client::CustomChat::CustomChatString = collapseEscape(CC_CustomStringInput.getValue());
+	$Pref::Client::CustomChat::CustomChatString = $CustomChat::StringData = collapseEscape(CC_CustomStringInput.getValue());
 
 	%msgSoundFilename = CC_NewMsgSoundInput.getValue();
 	if(%msgSoundFilename !$= $Pref::Client::CustomChat::MessageSoundFilename) {

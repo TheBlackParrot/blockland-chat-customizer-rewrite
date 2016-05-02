@@ -177,7 +177,7 @@ function getChatTimestamp() {
 	return getUTC();
 }
 
-function isUserRanked(%who, %forceReload) {
+function cachePlayerData(%forceReload) {
 	%list = NPL_List;
 
 	if(%list.rowCount() != $CustomChat::PreviousCount || %forceReload !$= "") {
@@ -191,12 +191,18 @@ function isUserRanked(%who, %forceReload) {
 			%rank = stripMLControlChars(getField(%row, 0));
 			%name = stripMLControlChars(getField(%row, 1));
 
+			$CustomChat::PlayerNameBLID[%name] = stripMLControlChars(getField(%row, 3));
+
 			switch$(%rank) {
 				case "A": $CustomChat::Admins = trim($CustomChat::Admins TAB %name);
 				case "S": $CustomChat::SuperAdmins = trim($CustomChat::SuperAdmins TAB %name);
 			}
 		}
 	}
+}
+
+function isUserRanked(%who, %forceReload) {
+	cachePlayerData(%forceReload);
 
 	if(strStr(getField($CustomChat::CurrentServer, 2), %who) != -1) {
 		return 3;
@@ -281,7 +287,7 @@ package CustomChatPackage {
 		}
 
 		if(stripMLControlChars(getTaggedString(getWord(%tag, 0))) $= "MsgAdminForce") {
-			isUserRanked(%clanPrefix, 1);
+			cachePlayerData(1);
 		}
 
 		return parent::clientCmdServerMessage(%tag, %fmsg, %clanPrefix, %name, %clanSuffix, %msg, %a, %b, %idk, %d, %e, %f);
@@ -489,5 +495,5 @@ package CustomChatPackage {
 };
 activatePackage(CustomChatPackage);
 
-$CustomChat::Version = "0.2.1-dev1";
+$CustomChat::Version = "0.2.1-dev2";
 echo("Executed Client_CustomChat v" @ $CustomChat::Version);

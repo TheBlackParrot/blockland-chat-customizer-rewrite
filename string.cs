@@ -174,5 +174,14 @@ function CC_getCustomChatString(%clanPrefix, %name, %clanSuffix, %msg, %slayerCo
 		%end_result = strReplace(%end_result, "%i%", $CustomChat::TotalMessages);
 	}
 
+	// BL_ID
+	if(strStr(%format, "%id%") != -1) {
+		if(isObject(MissionCleanup)) {
+			%end_result = strReplace(%end_result, "%id%", "");
+		} else {
+			%end_result = strReplace(%end_result, "%id%", $CustomChat::PlayerNameBLID[%name]);
+		}
+	}
+
 	return %end_result;
 }
