@@ -4,7 +4,7 @@ new GuiControl(CCCtempswatch) {
    horizSizing = "right";
    vertSizing = "bottom";
    position = "0 0";
-   extent = "800 600";
+   extent = "640 480";
    minExtent = "8 2";
    enabled = "1";
    visible = "1";
@@ -15,7 +15,7 @@ new GuiControl(CCCtempswatch) {
       horizSizing = "right";
       vertSizing = "bottom";
       position = "0 0";
-      extent = "494 112";
+      extent = "494 140";
       minExtent = "8 2";
       enabled = "1";
       visible = "1";
@@ -105,6 +105,22 @@ new GuiControl(CCCtempswatch) {
          tabComplete = "0";
          sinkAllKeyEvents = "0";
       };
+      new GuiTextEditCtrl(CC_HostRankStringInput) {
+         profile = "GuiTextEditProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "218 112";
+         extent = "244 18";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         maxLength = "255";
+         historySize = "0";
+         password = "0";
+         tabComplete = "0";
+         sinkAllKeyEvents = "0";
+      };
       new GuiTextEditCtrl(CC_SuperAdminRankStringInput) {
          profile = "GuiTextEditProfile";
          horizSizing = "right";
@@ -120,6 +136,19 @@ new GuiControl(CCCtempswatch) {
          password = "0";
          tabComplete = "0";
          sinkAllKeyEvents = "0";
+      };
+      new GuiTextCtrl() {
+         profile = "GuiTextProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "16 112";
+         extent = "66 18";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         text = "Tag for Hosts";
+         maxLength = "255";
       };
    };
 };
