@@ -279,14 +279,15 @@ package CustomChatPackage {
 	function clientCmdServerMessage(%tag, %fmsg, %clanPrefix, %name, %clanSuffix, %msg, %a, %b, %idk, %d, %e, %f) {
 		// guess it wasn't enough to just modify clan tags, noooo send it through this
 
-		if(stripMLControlChars(getTaggedString(getWord(%tag, 0))) $= "chatMessage") {
+		%taggedStringName = stripMLControlChars(getTaggedString(getWord(%tag, 0)));
+		if(%taggedStringName $= "chatMessage") {
 			if(getWord(stripMLControlChars(trim(%idk)), 0) $= "[DEAD]") {
 				clientCmdChatMessage(0, 0, 0, %fmsg, %clanPrefix, %name, %clanSuffix SPC "\c7[DEAD]", %msg);
 				return;
 			}
 		}
 
-		if(stripMLControlChars(getTaggedString(getWord(%tag, 0))) $= "MsgAdminForce") {
+		if(%taggedStringName $= "MsgAdminForce" || %taggedStringName $= "MsgClientJoin") {
 			cachePlayerData(1);
 		}
 
