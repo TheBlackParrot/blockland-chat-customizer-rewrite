@@ -183,8 +183,9 @@ function cachePlayerData(%forceReload) {
 	if(%list.rowCount() != $CustomChat::PreviousCount || %forceReload !$= "") {
 		$CustomChat::PreviousCount = %list.rowCount();
 
-		$CustomChat::Admins = "";
-		$CustomChat::SuperAdmins = "";
+		deleteVariables("$CustomChat::IsAdmin*");
+		deleteVariables("$CustomChat::IsSuperAdmin*");
+
 		for(%i=0;%i<%list.rowCount();%i++) {
 			%row = %list.getRowText(%i);
 
@@ -194,8 +195,8 @@ function cachePlayerData(%forceReload) {
 			$CustomChat::PlayerNameBLID[%name] = stripMLControlChars(getField(%row, 3));
 
 			switch$(%rank) {
-				case "A": $CustomChat::Admins = trim($CustomChat::Admins TAB %name);
-				case "S": $CustomChat::SuperAdmins = trim($CustomChat::SuperAdmins TAB %name);
+				case "A": $CustomChat::Admins = $CustomChat::IsAdmin[%name] = 1;
+				case "S": $CustomChat::SuperAdmins = $CustomChat::IsSuperAdmin[%name] = 1;
 			}
 		}
 	}
@@ -212,10 +213,10 @@ function isUserRanked(%who, %forceReload) {
 			return 3;
 		}
 	}
-	if(stripos($CustomChat::Admins, %who) != -1) {
+	if($CustomChat::IsAdmin[%name]) {
 		return 1;
 	}
-	if(stripos($CustomChat::SuperAdmins, %who) != -1) {
+	if($CustomChat::IsSuperAdmin[%name]) {
 		return 2;
 	}
 
@@ -244,7 +245,7 @@ function logChat(%fileObj, %name, %msg) {
 
 	%fileObj.openForAppend($Pref::Client::CustomChat::LogDir @ %sanitizedDate @ ".log");
 
-	%fileObj.writeLine(%date TAB %name TAB %msg);
+	%fileObj.writeLine(%date TAB %name TAB ($CustomChat::PlayerNameBLID[%name] $= "" ? "-1" : $CustomChat::PlayerNameBLID[%name]) TAB %msg);
 
 	%fileObj.close();
 }
@@ -492,6 +493,8 @@ package CustomChatPackage {
 
 		// only thing i could think of :(
 		$CustomChat::CurrentServer = JS_serverList.getRowTextByID(JS_serverList.getSelectedID());
+
+		cachePlayerData(1);
 	}
 };
 activatePackage(CustomChatPackage);
