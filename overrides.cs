@@ -53,3 +53,21 @@ function addChatSettingsButton() {
 	
 }
 if(!isObject(ChatSettingsButton)) { addChatSettingsButton(); }
+
+if(!isObject(CustomChatBackground)) {
+	new GuiSwatchCtrl(CustomChatBackground) {
+		profile = "GuiDefaultProfile";
+		horizSizing = "right";
+		vertSizing = "bottom";
+		position = "0 20";
+		extent = "0 0";
+		minExtent = "0 0";
+		enabled = "1";
+		visible = "1";
+		clipToParent = "1";
+		color = "0 0 0 0";
+	};
+
+	NewChatHud.add(CustomChatBackground);
+	CustomChatBackground.add(NewChatText);
+}

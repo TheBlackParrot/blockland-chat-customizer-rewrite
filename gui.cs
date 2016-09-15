@@ -36,6 +36,12 @@ function revertCustomChatSettings() {
 	CC_StripFontTagCheck.setValue(mClamp($Pref::Client::CustomChat::RemoveFontTags, 0, 1));
 	CC_StripColorTagCheck.setValue(mClamp($Pref::Client::CustomChat::RemoveColorTags, 0, 1));
 
+	CC_ChatBackgroundCheck.setValue(mClamp($Pref::Client::CustomChat::EnableChatBackground, 0, 1));
+	CC_ChatBackgroundWidthInput.setValue(mFloor($Pref::Client::CustomChat::BackgroundWidth));
+	CC_ChatBackgroundXInput.setValue(mFloor($Pref::Client::CustomChat::BackgroundX));
+	CC_ChatBackgroundYInput.setValue(mFloor($Pref::Client::CustomChat::BackgroundY));
+	CC_ChatBackgroundColorBox.mColor = $Pref::Client::CustomChat::BackgroundColor;
+
 	CC_NameColorBox.mColor = HexToRGB($Pref::Client::CustomChat::NameColor) SPC "255";
 	CC_SelfNameColorBox.mColor = HexToRGB($Pref::Client::CustomChat::SelfNameColor) SPC "255";
 	CC_RandomizeNameColorsCheck.setValue(mClamp($Pref::Client::CustomChat::EnableRandomNameColors, 0, 1));
@@ -129,6 +135,12 @@ function saveCustomChatSettings() {
 	$Pref::Client::CustomChat::ShadowX = CC_ShadowXInput.getValue();
 	$Pref::Client::CustomChat::ShadowY = CC_ShadowYInput.getValue();
 
+	$Pref::Client::CustomChat::EnableChatBackground = CC_ChatBackgroundCheck.getValue();
+	$Pref::Client::CustomChat::BackgroundWidth = CC_ChatBackgroundWidthInput.getValue();
+	$Pref::Client::CustomChat::BackgroundX = CC_ChatBackgroundXInput.getValue();
+	$Pref::Client::CustomChat::BackgroundY = CC_ChatBackgroundYInput.getValue();
+	$Pref::Client::CustomChat::BackgroundColor = CC_ChatBackgroundColorBox.mColor;
+
 	$Pref::Client::CustomChat::RemoveFontTags = CC_StripFontTagCheck.getValue();
 	$Pref::Client::CustomChat::RemoveColorTags = CC_StripColorTagCheck.getValue();
 
@@ -206,6 +218,16 @@ function saveCustomChatSettings() {
 	updateVisitedLinkColor($Pref::Client::CustomChat::LinkVisitedColor);
 	setChatTextOutline($Pref::Client::CustomChat::EnableOutline);
 	setChatTextOutlineColor($Pref::Client::CustomChat::OutlineColor);
+
+	if($Pref::Client::CustomChat::EnableChatBackground) {
+		updateChatBoxColor($Pref::Client::CustomChat::BackgroundColor);
+		%b_x = $Pref::Client::CustomChat::BackgroundX;
+		%b_y = $Pref::Client::CustomChat::BackgroundY;
+		%b_w = $Pref::Client::CustomChat::BackgroundWidth;
+		resizeChatBox(%b_x, %b_y, %b_w);
+	} else {
+		updateChatBoxColor("0 0 0 0");
+	}
 
 	NewChatText.setProfile(BlockChatTextSize1Profile);
 	setChatColors();

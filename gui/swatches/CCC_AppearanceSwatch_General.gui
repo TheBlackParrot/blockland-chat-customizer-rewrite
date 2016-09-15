@@ -1,10 +1,10 @@
 //--- OBJECT WRITE BEGIN ---
-new GuiControl(CCCtempswatch) {
+new GuiControl(NewGui) {
    profile = "GuiDefaultProfile";
    horizSizing = "right";
    vertSizing = "bottom";
    position = "0 0";
-   extent = "800 600";
+   extent = "640 480";
    minExtent = "8 2";
    enabled = "1";
    visible = "1";
@@ -15,7 +15,7 @@ new GuiControl(CCCtempswatch) {
       horizSizing = "right";
       vertSizing = "bottom";
       position = "0 0";
-      extent = "494 286";
+      extent = "494 318";
       minExtent = "8 2";
       enabled = "1";
       visible = "1";
@@ -124,7 +124,7 @@ new GuiControl(CCCtempswatch) {
                alignTop = "0";
                overflowImage = "0";
                mKeepCached = "0";
-               mColor = "255 64 96 255";
+               mColor = "255 96 74 255";
             };
          };
          new GuiSwatchCtrl() {
@@ -194,7 +194,7 @@ new GuiControl(CCCtempswatch) {
                alignTop = "0";
                overflowImage = "0";
                mKeepCached = "0";
-               mColor = "87 129 255 255";
+               mColor = "88 196 255 255";
             };
          };
          new GuiSwatchCtrl() {
@@ -229,7 +229,7 @@ new GuiControl(CCCtempswatch) {
                alignTop = "0";
                overflowImage = "0";
                mKeepCached = "0";
-               mColor = "0 255 136 255";
+               mColor = "97 255 153 255";
             };
          };
          new GuiSwatchCtrl() {
@@ -264,7 +264,7 @@ new GuiControl(CCCtempswatch) {
                alignTop = "0";
                overflowImage = "0";
                mKeepCached = "0";
-               mColor = "255 243 0 255";
+               mColor = "255 255 172 255";
             };
          };
          new GuiSwatchCtrl() {
@@ -299,7 +299,7 @@ new GuiControl(CCCtempswatch) {
                alignTop = "0";
                overflowImage = "0";
                mKeepCached = "0";
-               mColor = "141 255 230 255";
+               mColor = "185 228 255 255";
             };
          };
          new GuiSwatchCtrl() {
@@ -334,7 +334,7 @@ new GuiControl(CCCtempswatch) {
                alignTop = "0";
                overflowImage = "0";
                mKeepCached = "0";
-               mColor = "255 158 255 255";
+               mColor = "255 174 255 255";
             };
          };
          new GuiSwatchCtrl() {
@@ -404,7 +404,7 @@ new GuiControl(CCCtempswatch) {
                alignTop = "0";
                overflowImage = "0";
                mKeepCached = "0";
-               mColor = "96 96 96 255";
+               mColor = "116 115 131 255";
             };
          };
          new GuiSwatchCtrl() {
@@ -795,7 +795,7 @@ new GuiControl(CCCtempswatch) {
             alignTop = "0";
             overflowImage = "0";
             mKeepCached = "0";
-            mColor = "0 255 255 255";
+            mColor = "0 87 255 255";
          };
       };
       new GuiSwatchCtrl() {
@@ -900,7 +900,7 @@ new GuiControl(CCCtempswatch) {
             alignTop = "0";
             overflowImage = "0";
             mKeepCached = "0";
-            mColor = "0 0 0 255";
+            mColor = "0 0 0 133";
          };
       };
       new GuiTextCtrl() {
@@ -928,6 +928,142 @@ new GuiControl(CCCtempswatch) {
          clipToParent = "1";
          text = "X";
          maxLength = "255";
+      };
+      new GuiCheckBoxCtrl(CC_ChatBackgroundCheck) {
+         profile = "GuiCheckBoxProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "15 286";
+         extent = "140 20";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         text = " Chat background";
+         groupNum = "-1";
+         buttonType = "ToggleButton";
+      };
+      new GuiTextEditCtrl(CC_ChatBackgroundXInput) {
+         profile = "GuiTextEditProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "298 287";
+         extent = "42 18";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         maxLength = "4";
+         historySize = "0";
+         password = "0";
+         tabComplete = "0";
+         sinkAllKeyEvents = "0";
+      };
+      new GuiTextEditCtrl(CC_ChatBackgroundYInput) {
+         profile = "GuiTextEditProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "360 287";
+         extent = "42 18";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         maxLength = "4";
+         historySize = "0";
+         password = "0";
+         tabComplete = "0";
+         sinkAllKeyEvents = "0";
+      };
+      new GuiSwatchCtrl() {
+         profile = "GuiDefaultProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "408 287";
+         extent = "54 18";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         color = "0 0 0 255";
+
+         new GuiBitmapButtonCtrl(CC_ChatBackgroundColorBox) {
+            profile = "GuiDefaultProfile";
+            horizSizing = "right";
+            vertSizing = "bottom";
+            position = "1 1";
+            extent = "52 16";
+            minExtent = "8 2";
+            enabled = "1";
+            visible = "1";
+            clipToParent = "1";
+            command = "openCustomChatColorChooser(\"Chat Background\", CC_ChatBackgroundColorBox, 0, 1);";
+            text = "";
+            groupNum = "-1";
+            buttonType = "PushButton";
+            bitmap = "./images/white";
+            lockAspectRatio = "0";
+            alignLeft = "0";
+            alignTop = "0";
+            overflowImage = "0";
+            mKeepCached = "0";
+            mColor = "0 0 0 133";
+         };
+      };
+      new GuiTextCtrl() {
+         profile = "GuiTextProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "348 287";
+         extent = "8 18";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         text = "Y";
+         maxLength = "255";
+      };
+      new GuiTextCtrl() {
+         profile = "GuiTextProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "286 287";
+         extent = "8 18";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         text = "X";
+         maxLength = "255";
+      };
+      new GuiTextCtrl() {
+         profile = "GuiTextProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "204 287";
+         extent = "27 18";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         text = "Width";
+         maxLength = "255";
+      };
+      new GuiTextEditCtrl(CC_ChatBackgroundWidthInput) {
+         profile = "GuiTextEditProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "236 287";
+         extent = "42 18";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         maxLength = "4";
+         historySize = "0";
+         password = "0";
+         tabComplete = "0";
+         sinkAllKeyEvents = "0";
       };
    };
 };

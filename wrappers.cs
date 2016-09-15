@@ -25,3 +25,12 @@ function setChatColors() {
 	}
 }
 setChatColors();
+
+function updateChatBoxColor(%color) {
+	CustomChatBackground.color = %color;
+}
+
+function resizeChatBox(%x, %y, %width) {
+	%ext = CustomChatBackground.getExtent();
+	CustomChatBackground.resize(%x, %y, %width, getWord(%ext, 1));
+}

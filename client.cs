@@ -131,6 +131,15 @@ if($Pref::Client::CustomChat::HostRankString $= "") {
 	$Pref::Client::CustomChat::HostRankString = "\c7[\c5H\c7]";
 }
 
+// didn't exist pre v0.3.0-1
+if($Pref::Client::CustomChat::EnableChatBackground $= "") {
+	$Pref::Client::CustomChat::EnableChatBackground = 0;
+	$Pref::Client::CustomChat::BackgroundWidth = 500;
+	$Pref::Client::CustomChat::BackgroundColor = "0 0 0 128";
+	$Pref::Client::CustomChat::BackgroundX = "0";
+	$Pref::Client::CustomChat::BackgroundY = "20";
+}
+
 updateFontFamily($Pref::Client::CustomChat::FontFamily);
 updateFontSize($Pref::Client::CustomChat::FontSize);
 
@@ -480,6 +489,31 @@ package CustomChatPackage {
 		return parent::addLine(%this, %pre @ %time @ "<color:" @ CC_RGBToHex($Pref::Client::CustomChat::Color0) @ ">" @ %msg, %a, %b, %c);
 	}
 
+	function newMessageHud::updatePosition(%this, %a, %b, %c) {
+		parent::updatePosition(%this, %a, %b, %c);
+
+		%extent = newChatText.getExtent();
+
+		if(newChatText.getValue() $= "") {
+			// pref for presistence
+			$Pref::Client::CustomChat::CurrentBottomPad = getWord(%extent, 1);
+		}
+
+		if($Pref::Client::CustomChat::EnableChatBackground) {
+			%x = $Pref::Client::CustomChat::BackgroundX;
+			%y = $Pref::Client::CustomChat::BackgroundY;
+			%w = $Pref::Client::CustomChat::BackgroundWidth;
+
+			CustomChatBackground.resize(%x, %y, %w, getWord(%extent, 1)-$Pref::Client::CustomChat::CurrentBottomPad);
+			newChatText.resize(2, 0, %w-2, getWord(%extent, 1));
+		} else {
+			%extent_s = PlayGui.getExtent();
+
+			CustomChatBackground.resize(0, 20, getWord(%extent_s, 0), getWord(%extent, 1));
+			newChatText.resize(2, 0, getWord(%extent_s, 0), getWord(%extent, 1));
+		}
+	}
+
 	function disconnect(%a) {
 		if($CustomChat::ForceString) {
 			$CustomChat::ForceString = 0;
@@ -499,5 +533,5 @@ package CustomChatPackage {
 };
 activatePackage(CustomChatPackage);
 
-$CustomChat::Version = "0.2.1-dev2";
+$CustomChat::Version = "0.3.0-1";
 echo("Executed Client_CustomChat v" @ $CustomChat::Version);
