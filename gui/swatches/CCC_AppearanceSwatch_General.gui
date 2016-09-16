@@ -15,7 +15,7 @@ new GuiControl(NewGui) {
       horizSizing = "right";
       vertSizing = "bottom";
       position = "0 0";
-      extent = "494 318";
+      extent = "494 348";
       minExtent = "8 2";
       enabled = "1";
       visible = "1";
@@ -708,12 +708,12 @@ new GuiControl(NewGui) {
          horizSizing = "right";
          vertSizing = "bottom";
          position = "15 258";
-         extent = "140 20";
+         extent = "114 20";
          minExtent = "8 2";
          enabled = "1";
          visible = "1";
          clipToParent = "1";
-         text = " Strip <font> markup";
+         text = " Strip <font> tags";
          groupNum = "-1";
          buttonType = "ToggleButton";
       };
@@ -721,13 +721,13 @@ new GuiControl(NewGui) {
          profile = "GuiCheckBoxProfile";
          horizSizing = "right";
          vertSizing = "bottom";
-         position = "246 258";
+         position = "143 258";
          extent = "247 20";
          minExtent = "8 2";
          enabled = "1";
          visible = "1";
          clipToParent = "1";
-         text = " Strip <color> markup and color codes";
+         text = " Strip <color> tags and color codes";
          groupNum = "-1";
          buttonType = "ToggleButton";
       };
@@ -900,7 +900,7 @@ new GuiControl(NewGui) {
             alignTop = "0";
             overflowImage = "0";
             mKeepCached = "0";
-            mColor = "0 0 0 133";
+            mColor = "0 0 0 105";
          };
       };
       new GuiTextCtrl() {
@@ -933,7 +933,7 @@ new GuiControl(NewGui) {
          profile = "GuiCheckBoxProfile";
          horizSizing = "right";
          vertSizing = "bottom";
-         position = "15 286";
+         position = "15 314";
          extent = "140 20";
          minExtent = "8 2";
          enabled = "1";
@@ -947,7 +947,7 @@ new GuiControl(NewGui) {
          profile = "GuiTextEditProfile";
          horizSizing = "right";
          vertSizing = "bottom";
-         position = "298 287";
+         position = "298 315";
          extent = "42 18";
          minExtent = "8 2";
          enabled = "1";
@@ -963,7 +963,7 @@ new GuiControl(NewGui) {
          profile = "GuiTextEditProfile";
          horizSizing = "right";
          vertSizing = "bottom";
-         position = "360 287";
+         position = "360 315";
          extent = "42 18";
          minExtent = "8 2";
          enabled = "1";
@@ -979,7 +979,7 @@ new GuiControl(NewGui) {
          profile = "GuiDefaultProfile";
          horizSizing = "right";
          vertSizing = "bottom";
-         position = "408 287";
+         position = "408 315";
          extent = "54 18";
          minExtent = "8 2";
          enabled = "1";
@@ -1007,14 +1007,14 @@ new GuiControl(NewGui) {
             alignTop = "0";
             overflowImage = "0";
             mKeepCached = "0";
-            mColor = "0 0 0 133";
+            mColor = "0 0 0 134";
          };
       };
       new GuiTextCtrl() {
          profile = "GuiTextProfile";
          horizSizing = "right";
          vertSizing = "bottom";
-         position = "348 287";
+         position = "348 315";
          extent = "8 18";
          minExtent = "8 2";
          enabled = "1";
@@ -1027,7 +1027,7 @@ new GuiControl(NewGui) {
          profile = "GuiTextProfile";
          horizSizing = "right";
          vertSizing = "bottom";
-         position = "286 287";
+         position = "286 315";
          extent = "8 18";
          minExtent = "8 2";
          enabled = "1";
@@ -1040,7 +1040,7 @@ new GuiControl(NewGui) {
          profile = "GuiTextProfile";
          horizSizing = "right";
          vertSizing = "bottom";
-         position = "204 287";
+         position = "204 315";
          extent = "27 18";
          minExtent = "8 2";
          enabled = "1";
@@ -1053,13 +1053,56 @@ new GuiControl(NewGui) {
          profile = "GuiTextEditProfile";
          horizSizing = "right";
          vertSizing = "bottom";
-         position = "236 287";
+         position = "236 315";
          extent = "42 18";
          minExtent = "8 2";
          enabled = "1";
          visible = "1";
          clipToParent = "1";
          maxLength = "4";
+         historySize = "0";
+         password = "0";
+         tabComplete = "0";
+         sinkAllKeyEvents = "0";
+      };
+      new GuiCheckBoxCtrl(CC_StripBitmapTagCheck) {
+         profile = "GuiCheckBoxProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "353 258";
+         extent = "114 20";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         text = " Strip <bitmap> tags";
+         groupNum = "-1";
+         buttonType = "ToggleButton";
+      };
+      new GuiTextCtrl() {
+         profile = "GuiTextProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "16 286";
+         extent = "112 18";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         text = "Maximum Bitmap Height";
+         maxLength = "255";
+      };
+      new GuiTextEditCtrl(CC_MaxBitmapHeightInput) {
+         profile = "GuiTextEditProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "420 286";
+         extent = "42 18";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         maxLength = "2";
          historySize = "0";
          password = "0";
          tabComplete = "0";

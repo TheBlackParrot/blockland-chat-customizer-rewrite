@@ -140,6 +140,12 @@ if($Pref::Client::CustomChat::EnableChatBackground $= "") {
 	$Pref::Client::CustomChat::BackgroundY = "20";
 }
 
+// didn't exist pre v0.3.1-1
+if($Pref::Client::CustomChat::RemoveBitmapTags $= "") {
+	$Pref::Client::CustomChat::RemoveBitmapTags = 0;
+	$Pref::Client::CustomChat::MaxBitmapHeight = 0;
+}
+
 updateFontFamily($Pref::Client::CustomChat::FontFamily);
 updateFontSize($Pref::Client::CustomChat::FontSize);
 
@@ -154,6 +160,8 @@ setChatTextOutlineColor($Pref::Client::CustomChat::OutlineColor);
 NewChatText.setProfile(BlockChatTextSize1Profile);
 
 setChatColors();
+
+NewChatText.MaxBitmapHeight = $Pref::Client::CustomChat::MaxBitmapHeight;
 
 // TODO: Make a time lib (attempt to port over as much as possible from http://php.net/manual/en/function.date.php)
 function getChatTimestamp() {
@@ -259,6 +267,19 @@ function logChat(%fileObj, %name, %msg) {
 	%fileObj.close();
 }
 
+function sanitizeBitmapTags(%string) {
+	while(stripos(%string, "<bitmap:") != -1) {
+		%start = stripos(%string, "<bitmap:");
+		%end = stripos(%string, ">", %start)+1;
+		
+		%toRemove = getSubStr(%string, %start, %end - %start);
+
+		%string = strReplace(%string, %toRemove, "");
+	}
+
+	return %string;
+}
+
 function sanitizeFontTags(%string) {
 	while(stripos(%string, "<font:") != -1) {
 		%start = stripos(%string, "<font:");
@@ -330,7 +351,9 @@ package CustomChatPackage {
 		}
 
 		// might as well do this before everything
-		if($Pref::Client::CustomChat::RemoveFontTags && $Pref::Client::CustomChat::RemoveColorTags) {
+		if($Pref::Client::CustomChat::RemoveFontTags
+		&& $Pref::Client::CustomChat::RemoveColorTags
+		&& $Pref::Client::CustomChat::RemoveBitmapTags) {
 			%fmsg = stripMLControlChars(%fmsg);
 
 			if($Pref::Client::CustomChat::EnableClanTags) {
@@ -459,9 +482,6 @@ package CustomChatPackage {
 	}
 
 	function NewChatSO::addLine(%this, %msg, %a, %b, %c) {
-		%font = $Pref::Client::CustomChat::FontFamily;
-		%size = $Pref::Client::CustomChat::FontSize;
-
 		if($Pref::Client::CustomChat::LogMode == 2) {
 			if(!$CustomChat::PreventLogOddity) {
 				logChat(ChatLogFileObject, "-", %msg);
@@ -485,8 +505,18 @@ package CustomChatPackage {
 			%msg = CC_stripBadWords(%msg);
 		}
 
+		if($Pref::Client::CustomChat::RemoveBitmapTags) {
+			%msg = sanitizeBitmapTags(%msg);
+		}
+
 		// \cr wouldn't work. :(
-		return parent::addLine(%this, %pre @ %time @ "<color:" @ CC_RGBToHex($Pref::Client::CustomChat::Color0) @ ">" @ %msg, %a, %b, %c);
+		%r = parent::addLine(%this, %pre @ %time @ "<color:" @ CC_RGBToHex($Pref::Client::CustomChat::Color0) @ ">" @ %msg, %a, %b, %c);
+
+		// oddly enough this isn't called by default
+		newChatText.forceReflow();
+		newMessageHud.updatePosition();
+
+		return %r;
 	}
 
 	function newMessageHud::updatePosition(%this, %a, %b, %c) {
@@ -530,8 +560,16 @@ package CustomChatPackage {
 
 		cachePlayerData(1);
 	}
+
+	function newChatText::setProfile(%this, %profile) {
+		if(strstr(%profile.getName(), "BlockChatTextSize") != -1) {
+			%profile = BlockChatTextSize1Profile;
+		}
+
+		parent::setProfile(%this, %profile);
+	}
 };
 activatePackage(CustomChatPackage);
 
-$CustomChat::Version = "0.3.0-1";
+$CustomChat::Version = "0.3.1-1";
 echo("Executed Client_CustomChat v" @ $CustomChat::Version);

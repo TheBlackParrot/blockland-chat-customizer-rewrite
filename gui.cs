@@ -35,6 +35,9 @@ function revertCustomChatSettings() {
 
 	CC_StripFontTagCheck.setValue(mClamp($Pref::Client::CustomChat::RemoveFontTags, 0, 1));
 	CC_StripColorTagCheck.setValue(mClamp($Pref::Client::CustomChat::RemoveColorTags, 0, 1));
+	CC_StripBitmapTagCheck.setValue(mClamp($Pref::Client::CustomChat::RemoveBitmapTags, 0, 1));
+
+	CC_MaxBitmapHeightInput.setValue(mClamp($Pref::Client::CustomChat::MaxBitmapHeight, 4, 64));
 
 	CC_ChatBackgroundCheck.setValue(mClamp($Pref::Client::CustomChat::EnableChatBackground, 0, 1));
 	CC_ChatBackgroundWidthInput.setValue(mFloor($Pref::Client::CustomChat::BackgroundWidth));
@@ -143,6 +146,9 @@ function saveCustomChatSettings() {
 
 	$Pref::Client::CustomChat::RemoveFontTags = CC_StripFontTagCheck.getValue();
 	$Pref::Client::CustomChat::RemoveColorTags = CC_StripColorTagCheck.getValue();
+	$Pref::Client::CustomChat::RemoveBitmapTags = CC_StripBitmapTagCheck.getValue();
+
+	$Pref::Client::CustomChat::MaxBitmapHeight = CC_MaxBitmapHeightInput.getValue();
 
 	$Pref::Client::CustomChat::NameColor = CC_RGBToHex(getWords(CC_NameColorBox.mColor, 0, 2));
 	$Pref::Client::CustomChat::SelfNameColor = CC_RGBToHex(getWords(CC_SelfNameColorBox.mColor, 0, 2));
@@ -231,6 +237,8 @@ function saveCustomChatSettings() {
 
 	NewChatText.setProfile(BlockChatTextSize1Profile);
 	setChatColors();
+
+	NewChatText.MaxBitmapHeight = $Pref::Client::CustomChat::MaxBitmapHeight;
 }
 
 function switchCCTab(%tab) {
