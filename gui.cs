@@ -1,4 +1,6 @@
 if(!$CustomChat::InitGUI) {
+	exec("./gui/CC_whosTalkingText.gui");
+	chatWhosTalkingText.setProfile(CC_whosTalkingText);
 	exec("./gui/CustomChatSettings.gui");
 	exec("./gui/swatches/main.cs");
 	exec("./gui/CustomChatColorGui.gui");
@@ -101,6 +103,19 @@ function revertCustomChatSettings() {
 	CC_CustomStringsCheck.setValue(mClamp($Pref::Client::CustomChat::EnableCustomString, 0, 1));
 	CC_CustomStringInput.setValue(escapeColorChars($Pref::Client::CustomChat::CustomChatString));
 	$CustomChat::StringData = $Pref::Client::CustomChat::CustomChatString;
+
+	// v0.4.0
+	CC_FontFamilyInput_WT.setValue($Pref::Client::CustomChat::FontFamily_WT);
+	CC_FontSizeInput_WT.setValue(mClamp($Pref::Client::CustomChat::FontSize_WT, 4, 64));
+	CC_TextColorBox_WT.mColor = $Pref::Client::CustomChat::TextColor_WT;
+
+	CC_TextOutlinesCheck_WT.setValue(mClamp($Pref::Client::CustomChat::EnableOutline_WT, 0, 1));
+	CC_OutlineColorBox_WT.mColor = $Pref::Client::CustomChat::OutlineColor_WT;
+
+	CC_TextShadowsCheck_WT.setValue(mClamp($Pref::Client::CustomChat::EnableShadow_WT, 0, 1));
+	CC_ShadowColorBox_WT.mColor = HexToRGB($Pref::Client::CustomChat::ShadowColor_WT) SPC "255";
+	CC_ShadowXInput_WT.setValue(mFloor($Pref::Client::CustomChat::ShadowX_WT));
+	CC_ShadowYInput_WT.setValue(mFloor($Pref::Client::CustomChat::ShadowY_WT));
 }
 
 function openCustomChatSettings() {
@@ -239,6 +254,26 @@ function saveCustomChatSettings() {
 	setChatColors();
 
 	NewChatText.MaxBitmapHeight = $Pref::Client::CustomChat::MaxBitmapHeight;
+
+	//v0.4.0
+	$Pref::Client::CustomChat::FontFamily_WT = CC_FontFamilyInput_WT.getValue();
+	$Pref::Client::CustomChat::FontSize_WT = mClamp(CC_FontSizeInput_WT.getValue(), 4, 64);
+	CC_FontSizeInput_WT.setValue($Pref::Client::CustomChat::FontSize_WT);
+	$Pref::Client::CustomChat::TextColor_WT = CC_TextColorBox_WT.mColor;
+
+	$Pref::Client::CustomChat::EnableOutline_WT = CC_TextOutlinesCheck_WT.getValue();
+	$Pref::Client::CustomChat::OutlineColor_WT = CC_OutlineColorBox_WT.mColor;
+
+	$Pref::Client::CustomChat::EnableShadow_WT = CC_TextShadowsCheck_WT.getValue();
+	$Pref::Client::CustomChat::ShadowColor_WT = CC_RGBToHex(CC_ShadowColorBox_WT.mColor);
+	$Pref::Client::CustomChat::ShadowX_WT = CC_ShadowXInput_WT.getValue();
+	$Pref::Client::CustomChat::ShadowY_WT = CC_ShadowYInput_WT.getValue();
+
+	updateFontFamily_WT($Pref::Client::CustomChat::FontFamily_WT);
+	updateFontSize_WT($Pref::Client::CustomChat::FontSize_WT);
+	updateTextColor_WT($Pref::Client::CustomChat::TextColor_WT);
+	setChatTextOutline_WT($Pref::Client::CustomChat::EnableOutline_WT);
+	setChatTextOutlineColor_WT($Pref::Client::CustomChat::OutlineColor_WT);
 }
 
 function switchCCTab(%tab) {

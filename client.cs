@@ -146,6 +146,19 @@ if($Pref::Client::CustomChat::RemoveBitmapTags $= "") {
 	$Pref::Client::CustomChat::MaxBitmapHeight = 0;
 }
 
+// didn't exist pre v0.4.0-1
+if($Pref::Client::CustomChat::FontFamily_WT $= "") {
+	$Pref::Client::CustomChat::FontFamily_WT = "Arial";
+	$Pref::Client::CustomChat::FontSize_WT = 14;
+	$Pref::Client::CustomChat::TextColor_WT = "255 255 255 255";
+	$Pref::Client::CustomChat::EnableOutline_WT = 1;
+	$Pref::Client::CustomChat::OutlineColor_WT = "32 32 255 255";
+	$Pref::Client::CustomChat::EnableShadow_WT = 0;
+	$Pref::Client::CustomChat::ShadowColor_WT = "0 0 0 128";
+	$Pref::Client::CustomChat::ShadowX_WT = 1;
+	$Pref::Client::CustomChat::ShadowY_WT = 1;
+}
+
 updateFontFamily($Pref::Client::CustomChat::FontFamily);
 updateFontSize($Pref::Client::CustomChat::FontSize);
 
@@ -155,9 +168,20 @@ updateVisitedLinkColor($Pref::Client::CustomChat::LinkVisitedColor);
 setChatTextOutline($Pref::Client::CustomChat::EnableOutline);
 setChatTextOutlineColor($Pref::Client::CustomChat::OutlineColor);
 
+updateFontFamily_WT($Pref::Client::CustomChat::FontFamily_WT);
+updateFontSize_WT($Pref::Client::CustomChat::FontSize_WT);
+updateTextColor_WT($Pref::Client::CustomChat::TextColor_WT);
+
+setChatTextOutline_WT($Pref::Client::CustomChat::EnableOutline_WT);
+setChatTextOutlineColor_WT($Pref::Client::CustomChat::OutlineColor_WT);
+
 // Taking over BlockChatTextSize1Profile and forcing it
 // I find it interesting that font sizes don't actually change just by doing this
 NewChatText.setProfile(BlockChatTextSize1Profile);
+NMH_Channel.setText("");
+NMH_Channel.setVisible(0);
+NMH_Type.setProfile(HudChatTextEditSize1Profile);
+NMH_Type.position = "0 0";
 
 setChatColors();
 
@@ -489,13 +513,6 @@ package CustomChatPackage {
 			$CustomChat::PreventLogOddity = 0;
 		}
 
-		%pre = "";
-		if($Pref::Client::CustomChat::EnableShadow) {
-			%x = $Pref::Client::CustomChat::ShadowX;
-			%y = $Pref::Client::CustomChat::ShadowY;
-			%pre = %pre @ "<shadow:" @ %x @ ":" @ %y @ "><shadowcolor:" @ $Pref::Client::CustomChat::ShadowColor @ ">";
-		}
-
 		%time = "";
 		if($Pref::Client::CustomChat::TimestampMode == 2) {
 			%time = "<color:" @ $Pref::Client::CustomChat::TimestampColor @ ">" @ getChatTimestamp() @ " ";
@@ -507,6 +524,25 @@ package CustomChatPackage {
 
 		if($Pref::Client::CustomChat::RemoveBitmapTags) {
 			%msg = sanitizeBitmapTags(%msg);
+		}
+
+		%pre = "";
+		if($Pref::Client::CustomChat::EnableShadow) {
+			%x = $Pref::Client::CustomChat::ShadowX;
+			%y = $Pref::Client::CustomChat::ShadowY;
+			%pre = %pre @ "<shadow:" @ %x @ ":" @ %y @ "><shadowcolor:" @ $Pref::Client::CustomChat::ShadowColor @ ">";
+
+			// hhhhhhhhhh
+			%msg = strReplace(%msg, "\c0", "<color:" @ CC_RGBToHex($Pref::Client::CustomChat::Color0) @ ">");
+			%msg = strReplace(%msg, "\c1", "<color:" @ CC_RGBToHex($Pref::Client::CustomChat::Color1) @ ">");
+			%msg = strReplace(%msg, "\c2", "<color:" @ CC_RGBToHex($Pref::Client::CustomChat::Color2) @ ">");
+			%msg = strReplace(%msg, "\c3", "<color:" @ CC_RGBToHex($Pref::Client::CustomChat::Color3) @ ">");
+			%msg = strReplace(%msg, "\c4", "<color:" @ CC_RGBToHex($Pref::Client::CustomChat::Color4) @ ">");
+			%msg = strReplace(%msg, "\c5", "<color:" @ CC_RGBToHex($Pref::Client::CustomChat::Color5) @ ">");
+			%msg = strReplace(%msg, "\c6", "<color:" @ CC_RGBToHex($Pref::Client::CustomChat::Color6) @ ">");
+			%msg = strReplace(%msg, "\c7", "<color:" @ CC_RGBToHex($Pref::Client::CustomChat::Color7) @ ">");
+			%msg = strReplace(%msg, "\c8", "<color:" @ CC_RGBToHex($Pref::Client::CustomChat::Color8) @ ">");
+			%msg = strReplace(%msg, "\c9", "<color:" @ CC_RGBToHex($Pref::Client::CustomChat::Color9) @ ">");
 		}
 
 		// \cr wouldn't work. :(
@@ -559,11 +595,40 @@ package CustomChatPackage {
 		$CustomChat::CurrentServer = JS_serverList.getRowTextByID(JS_serverList.getSelectedID());
 
 		cachePlayerData(1);
+
+		if($Pref::Client::CustomChat::EnableChatBackground) {
+			updateChatBoxColor($Pref::Client::CustomChat::BackgroundColor);
+			%b_x = $Pref::Client::CustomChat::BackgroundX;
+			%b_y = $Pref::Client::CustomChat::BackgroundY;
+			%b_w = $Pref::Client::CustomChat::BackgroundWidth;
+			resizeChatBox(%b_x, %b_y, %b_w);
+		} else {
+			updateChatBoxColor("0 0 0 0");
+		}
+
+		NewChatText.MaxBitmapHeight = $Pref::Client::CustomChat::MaxBitmapHeight;
+	}
+
+	function optionsDlg::onWake(%this) {
+		parent::onWake(%this);
+
+		NewChatText.setProfile(BlockChatTextSize1Profile);
 	}
 
 	function newChatText::setProfile(%this, %profile) {
-		if(strstr(%profile.getName(), "BlockChatTextSize") != -1) {
+		if(stripos(%profile.getName(), "BlockChatTextSize") != -1) {
 			%profile = BlockChatTextSize1Profile;
+		}
+
+		parent::setProfile(%this, %profile);
+
+		// honestly what the hell is blockland doing here? i'm adding this everywhere because SOMETHING is resetting this to 24 and i can't trace it
+		NewChatText.MaxBitmapHeight = $Pref::Client::CustomChat::MaxBitmapHeight;
+	}
+
+	function NMH_Type::setProfile(%this, %profile) {
+		if(stripos(%profile.getName(), "HudChatTextEditSize") != -1) {
+			%profile = HudChatTextEditSize1Profile;
 		}
 
 		parent::setProfile(%this, %profile);
@@ -571,5 +636,14 @@ package CustomChatPackage {
 };
 activatePackage(CustomChatPackage);
 
-$CustomChat::Version = "0.3.1-1";
+$CustomChat::Version = "0.4.0-dev";
 echo("Executed Client_CustomChat v" @ $CustomChat::Version);
+
+//bug fixes:
+//fixed issue with chat box backgrounds not appearing on startup
+//fixed issue with max bitmap heights not being set on startup
+//fixed issue with the options dialog resetting bitmap heights
+//c tags are now converted to their <color> counterparts if shadows are enabled
+//new:
+//chat input box now takes on the chat's font
+//chatWhosTalkingText can now be customized

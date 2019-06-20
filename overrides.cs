@@ -11,6 +11,36 @@ if(isObject(OPT_ChatSize9)) { OPT_ChatSize9.setVisible(0); }
 if(isObject(OPT_ChatSize10)) { OPT_ChatSize10.setVisible(0); }
 if(isObject(ExampleChat)) { ExampleChat.setVisible(0); }
 
+function initMLOnCWTT() {
+	if(isObject(chatWhosTalkingText)) {
+		if(chatWhosTalkingText.getClassName() !$= "GuiTextCtrl") {
+			return;
+		}
+
+		chatWhosTalkingText.delete();
+
+		new GuiMLTextCtrl(chatWhosTalkingText) {
+			profile = "CC_whosTalkingText";
+			horizSizing = "right";
+			vertSizing = "bottom";
+			position = "2 2";
+			extent = "4096 14";
+			minExtent = "8 2";
+			enabled = "1";
+			visible = "1";
+			clipToParent = "1";
+			lineSpacing = "2";
+			allowColorChars = "0";
+			maxChars = "-1";
+			maxBitmapHeight = "-1";
+			selectable = "1";
+			autoResize = "1";
+		};
+		NewChatHud.add(chatWhosTalkingText);
+	}
+}
+initMLOnCWTT();
+
 function addChatSettingsButton() {
 
 	%a = new GuiSwatchCtrl(HideChatSizeText) {
