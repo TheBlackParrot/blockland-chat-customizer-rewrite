@@ -648,7 +648,6 @@ package CustomChatPackage {
 			%y = $Pref::Client::CustomChat::ShadowY_WT;
 
 			%pre = "<shadow:" @ %x @ ":" @ %y @ "><shadowcolor:" @ %color @ ">";
-			echo(%pre);
 			
 			chatWhosTalkingText.setValue(%pre @ %text);
 		}
