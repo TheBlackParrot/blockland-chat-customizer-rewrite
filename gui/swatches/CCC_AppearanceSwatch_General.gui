@@ -15,7 +15,7 @@ new GuiControl(NewGui) {
       horizSizing = "right";
       vertSizing = "bottom";
       position = "0 0";
-      extent = "494 348";
+      extent = "494 376";
       minExtent = "8 2";
       enabled = "1";
       visible = "1";
@@ -115,7 +115,6 @@ new GuiControl(NewGui) {
                visible = "1";
                clipToParent = "1";
                command = "openCustomChatColorChooser(\"Escape Color 0\", CC_EscapeColorBox0, 0);";
-               text = "";
                groupNum = "-1";
                buttonType = "PushButton";
                bitmap = "./images/white";
@@ -125,6 +124,7 @@ new GuiControl(NewGui) {
                overflowImage = "0";
                mKeepCached = "0";
                mColor = "255 96 74 255";
+               text = "";
             };
          };
          new GuiSwatchCtrl() {
@@ -150,7 +150,6 @@ new GuiControl(NewGui) {
                visible = "1";
                clipToParent = "1";
                command = "openCustomChatColorChooser(\"Escape Color 9\", CC_EscapeColorBox9, 0);";
-               text = "";
                groupNum = "-1";
                buttonType = "PushButton";
                bitmap = "./images/white";
@@ -160,6 +159,7 @@ new GuiControl(NewGui) {
                overflowImage = "0";
                mKeepCached = "0";
                mColor = "0 0 0 0";
+               text = "";
             };
          };
          new GuiSwatchCtrl() {
@@ -185,7 +185,6 @@ new GuiControl(NewGui) {
                visible = "1";
                clipToParent = "1";
                command = "openCustomChatColorChooser(\"Escape Color 1\", CC_EscapeColorBox1, 0);";
-               text = "";
                groupNum = "-1";
                buttonType = "PushButton";
                bitmap = "./images/white";
@@ -195,6 +194,7 @@ new GuiControl(NewGui) {
                overflowImage = "0";
                mKeepCached = "0";
                mColor = "88 196 255 255";
+               text = "";
             };
          };
          new GuiSwatchCtrl() {
@@ -220,7 +220,6 @@ new GuiControl(NewGui) {
                visible = "1";
                clipToParent = "1";
                command = "openCustomChatColorChooser(\"Escape Color 2\", CC_EscapeColorBox2, 0);";
-               text = "";
                groupNum = "-1";
                buttonType = "PushButton";
                bitmap = "./images/white";
@@ -230,6 +229,7 @@ new GuiControl(NewGui) {
                overflowImage = "0";
                mKeepCached = "0";
                mColor = "97 255 153 255";
+               text = "";
             };
          };
          new GuiSwatchCtrl() {
@@ -255,7 +255,6 @@ new GuiControl(NewGui) {
                visible = "1";
                clipToParent = "1";
                command = "openCustomChatColorChooser(\"Escape Color 3\", CC_EscapeColorBox3, 0);";
-               text = "";
                groupNum = "-1";
                buttonType = "PushButton";
                bitmap = "./images/white";
@@ -265,6 +264,7 @@ new GuiControl(NewGui) {
                overflowImage = "0";
                mKeepCached = "0";
                mColor = "255 255 172 255";
+               text = "";
             };
          };
          new GuiSwatchCtrl() {
@@ -290,7 +290,6 @@ new GuiControl(NewGui) {
                visible = "1";
                clipToParent = "1";
                command = "openCustomChatColorChooser(\"Escape Color 4\", CC_EscapeColorBox4, 0);";
-               text = "";
                groupNum = "-1";
                buttonType = "PushButton";
                bitmap = "./images/white";
@@ -300,6 +299,7 @@ new GuiControl(NewGui) {
                overflowImage = "0";
                mKeepCached = "0";
                mColor = "185 228 255 255";
+               text = "";
             };
          };
          new GuiSwatchCtrl() {
@@ -325,7 +325,6 @@ new GuiControl(NewGui) {
                visible = "1";
                clipToParent = "1";
                command = "openCustomChatColorChooser(\"Escape Color 5\", CC_EscapeColorBox5, 0);";
-               text = "";
                groupNum = "-1";
                buttonType = "PushButton";
                bitmap = "./images/white";
@@ -335,6 +334,7 @@ new GuiControl(NewGui) {
                overflowImage = "0";
                mKeepCached = "0";
                mColor = "255 174 255 255";
+               text = "";
             };
          };
          new GuiSwatchCtrl() {
@@ -360,7 +360,6 @@ new GuiControl(NewGui) {
                visible = "1";
                clipToParent = "1";
                command = "openCustomChatColorChooser(\"Escape Color 6\", CC_EscapeColorBox6, 0);";
-               text = "";
                groupNum = "-1";
                buttonType = "PushButton";
                bitmap = "./images/white";
@@ -370,6 +369,7 @@ new GuiControl(NewGui) {
                overflowImage = "0";
                mKeepCached = "0";
                mColor = "255 255 255 255";
+               text = "";
             };
          };
          new GuiSwatchCtrl() {
@@ -395,7 +395,6 @@ new GuiControl(NewGui) {
                visible = "1";
                clipToParent = "1";
                command = "openCustomChatColorChooser(\"Escape Color 7\", CC_EscapeColorBox7, 0);";
-               text = "";
                groupNum = "-1";
                buttonType = "PushButton";
                bitmap = "./images/white";
@@ -405,6 +404,7 @@ new GuiControl(NewGui) {
                overflowImage = "0";
                mKeepCached = "0";
                mColor = "116 115 131 255";
+               text = "";
             };
          };
          new GuiSwatchCtrl() {
@@ -430,7 +430,6 @@ new GuiControl(NewGui) {
                visible = "1";
                clipToParent = "1";
                command = "openCustomChatColorChooser(\"Escape Color 8\", CC_EscapeColorBox8, 0);";
-               text = "";
                groupNum = "-1";
                buttonType = "PushButton";
                bitmap = "./images/white";
@@ -440,6 +439,7 @@ new GuiControl(NewGui) {
                overflowImage = "0";
                mKeepCached = "0";
                mColor = "0 0 0 0";
+               text = "";
             };
          };
          new GuiMLTextCtrl() {
@@ -786,7 +786,6 @@ new GuiControl(NewGui) {
             visible = "1";
             clipToParent = "1";
             command = "openCustomChatColorChooser(\"Links\", CC_LinkColorBox, 0);";
-            text = "";
             groupNum = "-1";
             buttonType = "PushButton";
             bitmap = "./images/white";
@@ -796,6 +795,7 @@ new GuiControl(NewGui) {
             overflowImage = "0";
             mKeepCached = "0";
             mColor = "0 87 255 255";
+            text = "";
          };
       };
       new GuiSwatchCtrl() {
@@ -821,7 +821,6 @@ new GuiControl(NewGui) {
             visible = "1";
             clipToParent = "1";
             command = "openCustomChatColorChooser(\"Visited Links\", CC_LinkVisitedColorBox, 0);";
-            text = "";
             groupNum = "-1";
             buttonType = "PushButton";
             bitmap = "./images/white";
@@ -831,6 +830,7 @@ new GuiControl(NewGui) {
             overflowImage = "0";
             mKeepCached = "0";
             mColor = "255 0 255 255";
+            text = "";
          };
       };
       new GuiSwatchCtrl() {
@@ -856,7 +856,6 @@ new GuiControl(NewGui) {
             visible = "1";
             clipToParent = "1";
             command = "openCustomChatColorChooser(\"Outlines\", CC_OutlineColorBox, 0);";
-            text = "";
             groupNum = "-1";
             buttonType = "PushButton";
             bitmap = "./images/white";
@@ -866,6 +865,7 @@ new GuiControl(NewGui) {
             overflowImage = "0";
             mKeepCached = "0";
             mColor = "0 0 0 255";
+            text = "";
          };
       };
       new GuiSwatchCtrl() {
@@ -891,7 +891,6 @@ new GuiControl(NewGui) {
             visible = "1";
             clipToParent = "1";
             command = "openCustomChatColorChooser(\"Shadows\", CC_ShadowColorBox, 1, 1);";
-            text = "";
             groupNum = "-1";
             buttonType = "PushButton";
             bitmap = "./images/white";
@@ -901,6 +900,7 @@ new GuiControl(NewGui) {
             overflowImage = "0";
             mKeepCached = "0";
             mColor = "0 0 0 105";
+            text = "";
          };
       };
       new GuiTextCtrl() {
@@ -947,7 +947,7 @@ new GuiControl(NewGui) {
          profile = "GuiTextEditProfile";
          horizSizing = "right";
          vertSizing = "bottom";
-         position = "298 315";
+         position = "358 342";
          extent = "42 18";
          minExtent = "8 2";
          enabled = "1";
@@ -963,7 +963,7 @@ new GuiControl(NewGui) {
          profile = "GuiTextEditProfile";
          horizSizing = "right";
          vertSizing = "bottom";
-         position = "360 315";
+         position = "420 342";
          extent = "42 18";
          minExtent = "8 2";
          enabled = "1";
@@ -998,7 +998,6 @@ new GuiControl(NewGui) {
             visible = "1";
             clipToParent = "1";
             command = "openCustomChatColorChooser(\"Chat Background\", CC_ChatBackgroundColorBox, 0, 1);";
-            text = "";
             groupNum = "-1";
             buttonType = "PushButton";
             bitmap = "./images/white";
@@ -1008,13 +1007,14 @@ new GuiControl(NewGui) {
             overflowImage = "0";
             mKeepCached = "0";
             mColor = "0 0 0 134";
+            text = "";
          };
       };
       new GuiTextCtrl() {
          profile = "GuiTextProfile";
          horizSizing = "right";
          vertSizing = "bottom";
-         position = "348 315";
+         position = "408 342";
          extent = "8 18";
          minExtent = "8 2";
          enabled = "1";
@@ -1027,7 +1027,7 @@ new GuiControl(NewGui) {
          profile = "GuiTextProfile";
          horizSizing = "right";
          vertSizing = "bottom";
-         position = "286 315";
+         position = "346 342";
          extent = "8 18";
          minExtent = "8 2";
          enabled = "1";
@@ -1040,7 +1040,7 @@ new GuiControl(NewGui) {
          profile = "GuiTextProfile";
          horizSizing = "right";
          vertSizing = "bottom";
-         position = "204 315";
+         position = "264 342";
          extent = "27 18";
          minExtent = "8 2";
          enabled = "1";
@@ -1053,7 +1053,7 @@ new GuiControl(NewGui) {
          profile = "GuiTextEditProfile";
          horizSizing = "right";
          vertSizing = "bottom";
-         position = "236 315";
+         position = "296 342";
          extent = "42 18";
          minExtent = "8 2";
          enabled = "1";
@@ -1107,6 +1107,19 @@ new GuiControl(NewGui) {
          password = "0";
          tabComplete = "0";
          sinkAllKeyEvents = "0";
+      };
+      new GuiTextCtrl() {
+         profile = "GuiTextProfile";
+         horizSizing = "right";
+         vertSizing = "bottom";
+         position = "16 342";
+         extent = "76 18";
+         minExtent = "8 2";
+         enabled = "1";
+         visible = "1";
+         clipToParent = "1";
+         text = "Chat Positioning";
+         maxLength = "255";
       };
    };
 };

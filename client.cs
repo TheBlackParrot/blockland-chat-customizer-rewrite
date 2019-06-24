@@ -134,8 +134,10 @@ if($Pref::Client::CustomChat::HostRankString $= "") {
 // didn't exist pre v0.3.0-1
 if($Pref::Client::CustomChat::EnableChatBackground $= "") {
 	$Pref::Client::CustomChat::EnableChatBackground = 0;
-	$Pref::Client::CustomChat::BackgroundWidth = 500;
-	$Pref::Client::CustomChat::BackgroundColor = "0 0 0 128";
+	// pre v0.4.0-dev update 2: value was 500
+	$Pref::Client::CustomChat::BackgroundWidth = getWord(getRes(), 0);
+	// pre v0.4.0-dev update 2: value was "0 0 0 128"
+	$Pref::Client::CustomChat::BackgroundColor = "0 0 0 0";
 	$Pref::Client::CustomChat::BackgroundX = "0";
 	$Pref::Client::CustomChat::BackgroundY = "20";
 }
@@ -146,7 +148,7 @@ if($Pref::Client::CustomChat::RemoveBitmapTags $= "") {
 	$Pref::Client::CustomChat::MaxBitmapHeight = 0;
 }
 
-// didn't exist pre v0.4.0-1
+// didn't exist pre v0.4.0-dev update 1
 if($Pref::Client::CustomChat::FontFamily_WT $= "") {
 	$Pref::Client::CustomChat::FontFamily_WT = "Arial";
 	$Pref::Client::CustomChat::FontSize_WT = 14;
@@ -157,6 +159,17 @@ if($Pref::Client::CustomChat::FontFamily_WT $= "") {
 	$Pref::Client::CustomChat::ShadowColor_WT = "0 0 0 128";
 	$Pref::Client::CustomChat::ShadowX_WT = 1;
 	$Pref::Client::CustomChat::ShadowY_WT = 1;
+}
+
+// force fix on new background mode in v0.4.0-dev update 2
+if($Pref::Client::CustomChat::NewPositioning $= "") {
+	$Pref::Client::CustomChat::NewPositioning = "ignore this";
+
+	if(!$Pref::Client::CustomChat::EnableChatBackground && $Pref::Client::CustomChat::BackgroundWidth == 500 && $Pref::Client::CustomChat::BackgroundColor $= "0 0 0 128") {
+		// never used a background, go ahead and reset the variable to the correct width since we're using this all the time now
+		$Pref::Client::CustomChat::BackgroundWidth = getWord(getRes(), 0);
+		$Pref::Client::CustomChat::BackgroundColor = "0 0 0 0";
+	}
 }
 
 updateFontFamily($Pref::Client::CustomChat::FontFamily);
@@ -332,8 +345,6 @@ function sanitizeColorTags(%string) {
 
 package CustomChatPackage {
 	function clientCmdServerMessage(%tag, %fmsg, %clanPrefix, %name, %clanSuffix, %msg, %a, %b, %idk, %d, %e, %f) {
-		// guess it wasn't enough to just modify clan tags, noooo send it through this
-
 		%taggedStringName = stripMLControlChars(getTaggedString(getWord(%tag, 0)));
 		if(%taggedStringName $= "chatMessage") {
 			if(getWord(stripMLControlChars(trim(%idk)), 0) $= "[DEAD]") {
@@ -344,6 +355,10 @@ package CustomChatPackage {
 
 		if(%taggedStringName $= "MsgAdminForce" || %taggedStringName $= "MsgClientJoin") {
 			cachePlayerData(1);
+		}
+
+		if(%taggedStringName $= "MsgStartTalking") {
+
 		}
 
 		return parent::clientCmdServerMessage(%tag, %fmsg, %clanPrefix, %name, %clanSuffix, %msg, %a, %b, %idk, %d, %e, %f);
@@ -565,19 +580,12 @@ package CustomChatPackage {
 			$Pref::Client::CustomChat::CurrentBottomPad = getWord(%extent, 1);
 		}
 
-		if($Pref::Client::CustomChat::EnableChatBackground) {
-			%x = $Pref::Client::CustomChat::BackgroundX;
-			%y = $Pref::Client::CustomChat::BackgroundY;
-			%w = $Pref::Client::CustomChat::BackgroundWidth;
+		%x = $Pref::Client::CustomChat::BackgroundX;
+		%y = $Pref::Client::CustomChat::BackgroundY;
+		%w = $Pref::Client::CustomChat::BackgroundWidth;
 
-			CustomChatBackground.resize(%x, %y, %w, getWord(%extent, 1)-$Pref::Client::CustomChat::CurrentBottomPad);
-			newChatText.resize(2, 0, %w-2, getWord(%extent, 1));
-		} else {
-			%extent_s = PlayGui.getExtent();
-
-			CustomChatBackground.resize(0, 20, getWord(%extent_s, 0), getWord(%extent, 1));
-			newChatText.resize(2, 0, getWord(%extent_s, 0), getWord(%extent, 1));
-		}
+		CustomChatBackground.resize(%x, %y, %w, getWord(%extent, 1)-$Pref::Client::CustomChat::CurrentBottomPad);
+		newChatText.resize(2, 0, %w-2, getWord(%extent, 1));
 	}
 
 	function disconnect(%a) {
@@ -596,15 +604,11 @@ package CustomChatPackage {
 
 		cachePlayerData(1);
 
-		if($Pref::Client::CustomChat::EnableChatBackground) {
-			updateChatBoxColor($Pref::Client::CustomChat::BackgroundColor);
-			%b_x = $Pref::Client::CustomChat::BackgroundX;
-			%b_y = $Pref::Client::CustomChat::BackgroundY;
-			%b_w = $Pref::Client::CustomChat::BackgroundWidth;
-			resizeChatBox(%b_x, %b_y, %b_w);
-		} else {
-			updateChatBoxColor("0 0 0 0");
-		}
+		updateChatBoxColor($Pref::Client::CustomChat::BackgroundColor);
+		%b_x = $Pref::Client::CustomChat::BackgroundX;
+		%b_y = $Pref::Client::CustomChat::BackgroundY;
+		%b_w = $Pref::Client::CustomChat::BackgroundWidth;
+		resizeChatBox(%b_x, %b_y, %b_w);
 
 		NewChatText.MaxBitmapHeight = $Pref::Client::CustomChat::MaxBitmapHeight;
 	}
@@ -633,17 +637,25 @@ package CustomChatPackage {
 
 		parent::setProfile(%this, %profile);
 	}
+
+	function WhoTalkSO::Display(%this, %a, %b, %c) {
+		%a = parent::Display(%this, %a, %b, %c);
+		%text = stripMLControlChars(chatWhosTalkingText.getValue());
+
+		if($Pref::Client::CustomChat::EnableShadow_WT) {
+			%color = $Pref::Client::CustomChat::ShadowColor_WT;
+			%x = $Pref::Client::CustomChat::ShadowX_WT;
+			%y = $Pref::Client::CustomChat::ShadowY_WT;
+
+			%pre = "<shadow:" @ %x @ ":" @ %y @ "><shadowcolor:" @ %color @ ">";
+			echo(%pre);
+			
+			chatWhosTalkingText.setValue(%pre @ %text);
+		}
+		return %a;
+	}
 };
 activatePackage(CustomChatPackage);
 
-$CustomChat::Version = "0.4.0-dev";
+$CustomChat::Version = "0.4.0-1";
 echo("Executed Client_CustomChat v" @ $CustomChat::Version);
-
-//bug fixes:
-//fixed issue with chat box backgrounds not appearing on startup
-//fixed issue with max bitmap heights not being set on startup
-//fixed issue with the options dialog resetting bitmap heights
-//c tags are now converted to their <color> counterparts if shadows are enabled
-//new:
-//chat input box now takes on the chat's font
-//chatWhosTalkingText can now be customized
