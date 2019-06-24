@@ -16,7 +16,7 @@ function revertCustomChatSettings() {
 	// i'll figure out some way to make this more dynamic at a later time
 	for(%i=0;%i<10;%i++) {
 		%obj = "CC_RandomNameColorBox" @ %i;
-		%obj.mColor = HexToRGB($Pref::Client::CustomChat::RandomNameColor[%i]) SPC "255";
+		%obj.mColor = CC_HexToRGB($Pref::Client::CustomChat::RandomNameColor[%i]) SPC "255";
 	}
 
 	%window = CustomChatWindow;
@@ -31,7 +31,7 @@ function revertCustomChatSettings() {
 	CC_OutlineColorBox.mColor = $Pref::Client::CustomChat::OutlineColor;
 
 	CC_TextShadowsCheck.setValue(mClamp($Pref::Client::CustomChat::EnableShadow, 0, 1));
-	CC_ShadowColorBox.mColor = HexToRGB($Pref::Client::CustomChat::ShadowColor) SPC "255";
+	CC_ShadowColorBox.mColor = CC_HexToRGB($Pref::Client::CustomChat::ShadowColor) SPC "255";
 	CC_ShadowXInput.setValue(mFloor($Pref::Client::CustomChat::ShadowX));
 	CC_ShadowYInput.setValue(mFloor($Pref::Client::CustomChat::ShadowY));
 
@@ -47,16 +47,16 @@ function revertCustomChatSettings() {
 	CC_ChatBackgroundYInput.setValue(mFloor($Pref::Client::CustomChat::BackgroundY));
 	CC_ChatBackgroundColorBox.mColor = $Pref::Client::CustomChat::BackgroundColor;
 
-	CC_NameColorBox.mColor = HexToRGB($Pref::Client::CustomChat::NameColor) SPC "255";
-	CC_SelfNameColorBox.mColor = HexToRGB($Pref::Client::CustomChat::SelfNameColor) SPC "255";
+	CC_NameColorBox.mColor = CC_HexToRGB($Pref::Client::CustomChat::NameColor) SPC "255";
+	CC_SelfNameColorBox.mColor = CC_HexToRGB($Pref::Client::CustomChat::SelfNameColor) SPC "255";
 	CC_RandomizeNameColorsCheck.setValue(mClamp($Pref::Client::CustomChat::EnableRandomNameColors, 0, 1));
 	CC_SlayerOverrideColorsCheck.setValue(mClamp($Pref::Client::CustomChat::EnableSlayerNameColors, 0, 1));
 
 	CC_ClanTagsCheck.setValue(mClamp($Pref::Client::CustomChat::EnableClanTags, 0, 1));
-	CC_ClanTagColorBox.mColor = HexToRGB($Pref::Client::CustomChat::ClanTagsColor) SPC "255";
+	CC_ClanTagColorBox.mColor = CC_HexToRGB($Pref::Client::CustomChat::ClanTagsColor) SPC "255";
 
-	CC_MessageColorBox.mColor = HexToRGB($Pref::Client::CustomChat::MessageColor) SPC "255";
-	CC_SelfMessageColorBox.mColor = HexToRGB($Pref::Client::CustomChat::SelfMsgColor) SPC "255";
+	CC_MessageColorBox.mColor = CC_HexToRGB($Pref::Client::CustomChat::MessageColor) SPC "255";
+	CC_SelfMessageColorBox.mColor = CC_HexToRGB($Pref::Client::CustomChat::SelfMsgColor) SPC "255";
 
 	for(%i=0;%i<3;%i++) {
 		%obj = "CC_LoggingMode" @ %i;
@@ -94,7 +94,7 @@ function revertCustomChatSettings() {
 	}
 	%window.tsFormatSetting = $Pref::Client::CustomChat::HourMode;
 	CC_TimestampSecondsCheck.setValue(mClamp($Pref::Client::CustomChat::ShowSecondsInTimestamp, 0, 1));
-	CC_TimestampColorBox.mColor = HexToRGB($Pref::Client::CustomChat::TimestampColor) SPC "255";
+	CC_TimestampColorBox.mColor = CC_HexToRGB($Pref::Client::CustomChat::TimestampColor) SPC "255";
 
 	CC_EnableSwearFilteringCheck.setValue(mClamp($Pref::Client::CustomChat::EnableSwearFiltering, 0, 1));
 	CC_SwearFilterInput.setValue(escapeColorChars($Pref::Client::CustomChat::SwearList));
@@ -113,7 +113,7 @@ function revertCustomChatSettings() {
 	CC_OutlineColorBox_WT.mColor = $Pref::Client::CustomChat::OutlineColor_WT;
 
 	CC_TextShadowsCheck_WT.setValue(mClamp($Pref::Client::CustomChat::EnableShadow_WT, 0, 1));
-	CC_ShadowColorBox_WT.mColor = HexToRGB($Pref::Client::CustomChat::ShadowColor_WT) SPC "255";
+	CC_ShadowColorBox_WT.mColor = CC_HexToRGB($Pref::Client::CustomChat::ShadowColor_WT) SPC "255";
 	CC_ShadowXInput_WT.setValue(mFloor($Pref::Client::CustomChat::ShadowX_WT));
 	CC_ShadowYInput_WT.setValue(mFloor($Pref::Client::CustomChat::ShadowY_WT));
 }

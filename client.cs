@@ -656,5 +656,5 @@ package CustomChatPackage {
 };
 activatePackage(CustomChatPackage);
 
-$CustomChat::Version = "0.4.0-1";
+$CustomChat::Version = "0.4.0-2";
 echo("Executed Client_CustomChat v" @ $CustomChat::Version);

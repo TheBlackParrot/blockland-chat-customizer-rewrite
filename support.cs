@@ -40,7 +40,7 @@ function CC_getPadding(%len, %pad) {
 	return %str;
 }
 
-function HexToRGB(%hex) {
+function CC_HexToRGB(%hex) {
 	if(strLen(%hex) < 6) {
 		return;
 	}
