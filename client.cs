@@ -604,13 +604,21 @@ package CustomChatPackage {
 
 		cachePlayerData(1);
 
-		updateChatBoxColor($Pref::Client::CustomChat::BackgroundColor);
+		if($Pref::Client::CustomChat::EnableChatBackground) {
+			updateChatBoxColor($Pref::Client::CustomChat::BackgroundColor);
+		} else {
+			updateChatBoxColor("0 0 0 0");
+		}
+
 		%b_x = $Pref::Client::CustomChat::BackgroundX;
 		%b_y = $Pref::Client::CustomChat::BackgroundY;
 		%b_w = $Pref::Client::CustomChat::BackgroundWidth;
 		resizeChatBox(%b_x, %b_y, %b_w);
 
 		NewChatText.MaxBitmapHeight = $Pref::Client::CustomChat::MaxBitmapHeight;
+
+		newChatText.forceReflow();
+		newMessageHud.updatePosition();
 	}
 
 	function optionsDlg::onWake(%this) {
@@ -656,5 +664,5 @@ package CustomChatPackage {
 };
 activatePackage(CustomChatPackage);
 
-$CustomChat::Version = "0.4.0-2";
+$CustomChat::Version = "0.4.0-3";
 echo("Executed Client_CustomChat v" @ $CustomChat::Version);
